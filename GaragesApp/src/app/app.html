@@ -2,26 +2,25 @@
   <header>
     <nav>
       <ul>
-        <li><a routerLink="/garages">Minhas Garagens</a></li>
-        <li><a routerLink="/garages/add">Adicionar Garagem</a></li>
-        <li><a routerLink="/vehicles">Todos os Veículos</a></li>
-        <li><a routerLink="/vehicles/add">Adicionar veículo</a></li>
+        <li><a routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Minhas Garagens</a></li>
+        <li><a routerLink="/garages/add" routerLinkActive="active-link">Adicionar Garagem</a></li>
+        <li><a routerLink="/vehicles" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Todos os Veículos</a></li>
+        <li><a routerLink="/vehicles/add" routerLinkActive="active-link">Adicionar veículo</a></li>
       </ul>
+      <div class="nav-right-actions theme-toggle">
+        <button (click)="toggleDarkMode()" [class.active]="isDarkMode">
+          <span *ngIf="!isDarkMode" title="Claro"><i class="fa-solid fa-sun"></i></span>
+          <span *ngIf="isDarkMode" title="Escuro"><i class="fa-solid fa-moon"></i></span>
+        </button>
+      </div>  
     </nav>
   </header>
 
   <main>
-    <div style="text-align: right; padding: 10px;">
-      <button (click)="toggleDarkMode()" [class.active]="isDarkMode">
-        <span *ngIf="!isDarkMode" title="Claro"><i class="fa-solid fa-sun"></i></span>
-        <span *ngIf="isDarkMode" title="Escuro"><i class="fa-solid fa-moon"></i></span>
-      </button>
-    </div>
     <router-outlet></router-outlet>
   </main>
 
   <app-toast></app-toast>
-
   <footer>
     <p>&copy; 2025 - Propriedades e Veículos Grand Theft Auto V</p>
   </footer>

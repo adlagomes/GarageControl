@@ -30,32 +30,40 @@
 <p *ngIf="garages.length === 0">Nenhuma garagem cadastrada. <a routerLink="/garages/add">Adicionar uma agora!</a></p>
 
 <div *ngIf="garages.length > 0">
-  
-<div class="garage-grid">
-  <div *ngFor="let garage of garages" class="garage-card">
-     <h3>{{ garage.name }}</h3>
-
-     <div *ngIf="garage.imageUrl">
-        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade" style="max-width: 100px; max-height: 100px;" class="property-image">
-        <p>{{ garage.type }}</p>
-     </div>
-     <div *ngIf="!garage.imageUrl">
+  <div class="garage-grid">
+    <div *ngFor="let garage of garages" class="garage-card" [routerLink]="['/garages', garage.id, 'vehicles']">
+      <p>{{ garage.type }}</p>
+      
+      <div *ngIf="garage.imageUrl">
+        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade" class="property-image">
+      </div>
+      <div *ngIf="!garage.imageUrl">
         <p>Insira uma imagem</p>
-     </div>
+      </div>
+
+      <h3>{{ garage.name }}</h3>
       <p>Localização: {{ garage.location }}</p>
       <p>Estado/Área: {{ garage.stateArea }}</p>
-      <p>Capacidade: {{ garage.capacity }} veículos</p>
-      <p *ngIf="garage.vehicles && garage.vehicles.length">Veículos alocados: {{ garage.vehicles.length || 0 }}</p>
-     <div class="button-group">
+      <p><i class="fa-solid fa-warehouse"></i> {{ garage.capacity }} veículos</p>
+      <p *ngIf="garage.vehicles && garage.vehicles.length"><i class="fa-solid fa-car"></i> {{ garage.vehicles.length || 0 }}</p>
+      <div class="button-group">
         <button (click)="editGarage(garage.id)">Editar</button>
         <button (click)="deleteGarage(garage.id)">Excluir</button>
-        <button [routerLink]="['/garages', garage.id, 'vehicles']">Ver Veículos</button>
-     </div>
+        <!-- <button [routerLink]="['/garages', garage.id, 'vehicles']">Ver Veículos</button> -->
+      </div>
+    </div>
   </div>
-</div>
+  <app-pagination
+    [pagination]="pagination"
+    [pageSize]="pageSize"
+    [pageSizes]="pageSizes"
+    (pageChange)="goToPage($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
+
   
 
-  <div class="pagination-controls" *ngIf="pagination && pagination.totalCount > 1">
+  <!-- <div class="pagination-controls" *ngIf="pagination && pagination.totalCount > 1">
     <button (click)="goToPage(pagination.currentPage - 1)" [disabled]="!pagination.hasPrevious">Anterior</button>
     
     <span>Página {{ pagination.currentPage }} de {{ pagination.totalPages }}</span>
@@ -65,5 +73,5 @@
     <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
       <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }} por página</option>
     </select>
-  </div>
+  </div> -->
 </div>

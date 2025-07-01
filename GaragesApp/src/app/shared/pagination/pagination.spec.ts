@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GarageListComponent } from './garage-list.component';
+import { Pagination } from './pagination';
 
-describe('GarageList', () => {
-  let component: GarageListComponent;
-  let fixture: ComponentFixture<GarageListComponent>;
+describe('Pagination', () => {
+  let component: Pagination;
+  let fixture: ComponentFixture<Pagination>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GarageListComponent]
+      imports: [Pagination]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GarageListComponent);
+    fixture = TestBed.createComponent(Pagination);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

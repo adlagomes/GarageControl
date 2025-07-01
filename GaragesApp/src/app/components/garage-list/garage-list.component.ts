@@ -6,13 +6,14 @@ import { GarageService, PagedGaragesResponse, PaginationMetadata, GarageQueryPar
 import { FormsModule } from '@angular/forms';
 import { Garage } from '../../models/garage.model'; // Importe a interface Garage
 import { NotificationService } from '../../services/notification.service';
-import { PropertyTypeService } from '../../services/property-type.service'; // Importe o novo serviço
+import { PropertyTypeService } from '../../services/property-type.service';
+import { Pagination } from "../../shared/pagination/pagination"; // Importe o novo serviço
 
 
 @Component({
   selector: 'app-garage-list',
   standalone: true, // É um componente standalone
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule], // Importe CommonModule e RouterLink
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule, Pagination], // Importe CommonModule e RouterLink
   templateUrl: './garage-list.component.html',
   styleUrls: ['./garage-list.component.css']
 })
@@ -87,13 +88,20 @@ export class GarageListComponent implements OnInit {
       this.loadGarages();
     }
   }
+// antigo
+  // onPageSizeChange(event: Event): void {
+  //   const selectElement = event.target as HTMLSelectElement;
+  //   this.pageSize = Number(selectElement.value);
+  //   this.currentPage = 1; // Volta para a primeira página ao mudar o tamanho da página
+  //   this.loadGarages();
+  // }
 
-  onPageSizeChange(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    this.pageSize = Number(selectElement.value);
-    this.currentPage = 1; // Volta para a primeira página ao mudar o tamanho da página
-    this.loadGarages();
-  }
+  // novo para testar componente de navegação
+  onPageSizeChange(newPageSize: number): void {
+  this.pageSize = newPageSize;
+  this.currentPage = 1;
+  this.loadGarages();
+}
 
   editGarage(id: number | undefined): void {
     if(id) {

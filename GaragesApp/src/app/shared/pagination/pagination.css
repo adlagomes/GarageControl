@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+.pagination-container {
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* === BOTÕES GERAIS === */
+.pagination-container button {
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* === SELECT (dropdown de pageSize) === */
+.pagination-container select {
+  font-family: inherit;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+/* === BOTÕES DESABILITADOS === */
+.pagination-container button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}

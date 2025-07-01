@@ -10,13 +10,28 @@
   --transition-fast: 0.2s ease-in-out;
 }
 
+/*  */
+
+body.light-theme .pagination-container button {
+  border-color: #1b1b1b;
+  color: #1b1b1b;
+}
+
+body.light-theme .pagination-container button:hover {
+  background-color: #1b1b1b;
+  color: #ffffff;
+}
+
+/*  */
+
+
 body {
   background-color: var(--bg-light);
   color: var(--text-dark);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding-top: 60px;
-  /* padding: 0 1rem; */
+  padding-bottom: 8rem;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -38,6 +53,10 @@ h2, h3 {
   padding: 1rem;
   margin: 1rem 0;
   transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.garage-card {
+  cursor: pointer;
 }
 
 body.dark-mode .garage-card,
@@ -70,16 +89,16 @@ button {
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
-  background-color: var(--secondary-color);
-  color: white;
+  /* background-color: var(--secondary-color); */
+  /* color: white; */
   font-size: .9rem;
   cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
-button:hover {
+/* button:hover {
   background-color: #5b6eae;
-}
+} */
 
 .cancel-button {
   background-color: #999;
@@ -162,18 +181,10 @@ label {
   font-size: 0.9em;
 }
 
-.pagination-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
 .theme-toggle {
   display: flex;
   justify-content: flex-end;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .theme-toggle button {
@@ -214,7 +225,7 @@ label {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   flex-wrap: wrap;
 }
 
@@ -256,6 +267,13 @@ header {
   border-bottom: 2px solid #444;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
 nav ul {
   list-style: none;
   display: flex;
@@ -263,6 +281,7 @@ nav ul {
   gap: 1.5rem;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
 }
 
 nav li {
@@ -282,6 +301,16 @@ nav a:hover {
   text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
 }
 
+nav a.active-link {
+  color: #00bfff;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+}
+
+nav button {
+  padding: 8px 12px;
+}
+
 body.dark-mode header {
   background-color: #111;
   border-bottom-color: #555;
@@ -293,6 +322,12 @@ body.dark-mode nav a {
 
 body.dark-mode nav a:hover {
   color: #0ff;
+}
+
+body.dark-mode nav a.active-link {
+  color: #00ffc8;
+  font-weight: 600;
+  text-shadow: 0 0 5px #00ffc8;
 }
 
 body.dark-mode .page-title {
@@ -324,5 +359,50 @@ body.dark-mode .page-title {
   min-width: 200px;
 }
 
+/* Pagination style */
 
+body.dark-mode .pagination-container button {
+  background-color: transparent;
+  border-color: #00ffc8;
+  color: #00ffc8;
+}
 
+body.dark-mode .pagination-container button:hover:not(:disabled) {
+  background-color: #00ffc8;
+  color: #1b1b1b;
+  box-shadow: 0 0 10px #00ffc8, 0 0 20px #00ffc8, 0 0 30px #00ffc8;
+}
+
+body.dark-mode .pagination-container select {
+  background-color: #1b1b1b;
+  color: #00ffc8;
+  border-color: #00ffc8;
+}
+
+body.dark-mode .pagination-container select:hover,
+body.dark-mode .pagination-container select:focus {
+  box-shadow: 0 0 10px #00ffc8;
+}
+
+body:not(.dark-mode) .pagination-container button {
+  background-color: transparent;
+  border-color: #0077ff;
+  color: #0077ff;
+}
+
+body:not(.dark-mode) .pagination-container button:hover:not(:disabled) {
+  background-color: #0077ff;
+  color: white;
+  box-shadow: 0 0 10px #66b2ff, 0 0 20px #66b2ff, 0 0 30px #66b2ff;
+}
+
+body:not(.dark-mode) .pagination-container select {
+  background-color: #ffffff;
+  color: #0077ff;
+  border-color: #0077ff;
+}
+
+body:not(.dark-mode) .pagination-container select:hover,
+body:not(.dark-mode) .pagination-container select:focus {
+  box-shadow: 0 0 10px #66b2ff;
+}

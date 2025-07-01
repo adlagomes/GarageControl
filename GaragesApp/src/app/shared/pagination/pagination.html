@@ -1,0 +1,9 @@
+<div class="pagination-container" *ngIf="pagination && pagination.totalCount > 1">
+    <button (click)="goToPage(pagination.currentPage - 1)" [disabled]="!pagination.hasPrevious">Anterior</button>
+    <span>Página {{ pagination.currentPage }} de {{ pagination.totalPages }}</span>
+    <button (click)="goToPage(pagination.currentPage + 1)" [disabled]="!pagination.hasNext">Próxima</button>
+
+    <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }} por página</option>
+    </select>
+  </div>
