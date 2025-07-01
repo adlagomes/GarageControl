@@ -36,7 +36,7 @@ dotnet restore
 dotnet ef database update
 dotnet run
 ```
-### Fronend
+### Frontend
 
 ```
 cd GaragesApp
