@@ -1,0 +1,19 @@
+.garage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.garage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.property-image {
+  max-width: 100px;
+  max-height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}

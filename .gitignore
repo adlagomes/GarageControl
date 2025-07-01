@@ -1,0 +1,16 @@
+# FRONTEND (Angular)
+GaragesApp/node_modules/
+GaragesApp/dist/
+
+# BACKEND (.NET)
+GaragesAPI/bin/
+GaragesAPI/obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,98 @@
+<h2>
+  {{ garageId ? 'Veículos na Garagem: ' + garageName : 'Todos os Veículos' }}
+</h2>
+
+<p *ngIf="vehicles.length === 0">
+  Nenhum veículo encontrado.
+  <a routerLink="/vehicles/add">Adicionar um veículo agora!</a>
+</p>
+
+<div class="filter-controls" [formGroup]="filterForm">
+  <input type="text" formControlName="searchQuery" placeholder="Buscar por nome, tipo, fabricante, categoria ou notas..." />
+
+  <select formControlName="type">
+    <option value="">Todos os Tipos</option>
+    <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
+  </select>
+
+  <select formControlName="manufacturer">
+    <option value="">Todos os Fabricantes</option>
+    <option *ngFor="let manufacturer of manufacturers" [value]="manufacturer">{{ manufacturer }}</option>
+  </select>
+
+  <select formControlName="category">
+    <option value="">Todas as Categorias</option>
+    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+  </select>
+
+  <div>
+    <label for="minTopSpeed">Vel. Mín: </label>
+    <input type="number" id="minTopSpeed" formControlName="minTopSpeed" placeholder="Mín." />
+  </div>
+  <div>
+    <label for="maxTopSpeed">Vel. Máx: </label>
+    <input type="number" id="maxTopSpeed" formControlName="maxTopSpeed" placeholder="Máx." />
+  </div>
+
+  <div>
+    <label for="minSeatingCapacity">Capacidade de Assentos (Mín):</label>
+    <input type="number" id="minSeatingCapacity" formControlName="minSeatingCapacity" placeholder="Mín." />
+  </div>
+  <div>
+    <label for="maxSeatingCapacity">Capacidade de Assentos (Máx):</label>
+    <input type="number" id="maxSeatingCapacity" formControlName="maxSeatingCapacity" placeholder="Máx." />
+  </div>
+
+  <div class="sort-controls">
+    <label for="sortBy">Ordenar por:</label>
+    <select id="sortBy" formControlName="sortBy">
+      <option value="id">ID</option>
+      <option value="name">Nome</option>
+      <option value="type">Tipo</option>
+      <option value="manufacturer">Fabricante</option>
+      <option value="category">Categoria</option>
+      <option value="topspeed">Velocidade Máxima</option>
+      <option value="seatingcapacity">Capacidade de Assentos</option>
+    </select>
+    <button type="button" (click)="toggleSortDirection()">
+      {{ filterForm.get('sortDirection')?.value === 'asc' ? 'Ordem Ascendente' : 'Ordem Descendente' }}
+      <span *ngIf="filterForm.get('sortDirection')?.value === 'asc'">⬆️</span>
+      <span *ngIf="filterForm.get('sortDirection')?.value === 'desc'">⬇️</span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="vehicles.length > 0">
+  <div *ngFor="let vehicle of vehicles" class="vehicle-card">
+    <h3>{{ vehicle.name }}</h3>
+    <div *ngIf="vehicle.carImage">
+      <img [src]="getBaseUrl() + '/images/vehicles/' + vehicle.carImage" alt="Imagem do Veículo"
+        style="max-width: 100px; max-height: 100px;">
+    </div>
+    <div *ngIf="!vehicle.carImage">
+      <p>Sem imagem</p>
+    </div>
+    <p>Tipo: {{ vehicle.type }}</p>
+    <p>Fabricante: {{ vehicle.manufacturer }}</p>
+    <p>Categoria: {{ vehicle.category }}</p>
+    <p>Velocidade Máxima: {{ vehicle.topSpeed }} km/h</p>
+    <p>Capacidade de Assentos: {{ vehicle.seatingCapacity }}</p>
+    <p *ngIf="vehicle.notes">Notas: {{ vehicle.notes }}</p>
+    <p *ngIf="vehicle.garage">Garagem: {{ vehicle.garage.name }}</p>
+    <div>
+      <button (click)="editVehicle(vehicle.id)">Editar</button>
+      <button (click)="deleteVehicle(vehicle.id)">Excluir</button>
+    </div>
+  </div>
+
+  <div *ngIf="pagination" class="pagination-controls">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="!pagination.hasPrevious">Anterior</button>
+    <span>Página {{ currentPage }} de {{ pagination.totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="!pagination.hasNext">Próxima</button>
+
+    <label for="pageSizeSelect">Itens por página:</label>
+    <select id="pageSizeSelect" [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

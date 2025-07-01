@@ -1,0 +1,81 @@
+<h2>{{ isEditMode ? 'Editar Veículo' : 'Adicionar Novo Veículo' }}</h2>
+
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+  <input type="hidden" formControlName="id">
+
+  <div>
+    <label for="type">Tipo (Carro, Moto, Caminhão, etc.):</label>
+    <input type="text" id="type" formControlName="type">
+    <div *ngIf="isFieldInvalid('type')" class="error-message">
+      <span *ngIf="vehicleForm.get('type')?.errors?.['required']">Tipo de veículo é obrigatório.</span>
+      <span *ngIf="vehicleForm.get('type')?.errors?.['maxlength']">Tipo não pode exceder 50 caracteres.</span>
+    </div>
+  </div>
+
+  <div>
+    <label for="manufacturer">Fabricante:</label>
+    <input type="text" id="manufacturer" formControlName="manufacturer">
+  </div>
+
+  <div>
+    <label for="category">Categoria / Classe</label>
+    <input type="text" id="category" formControlName="category">
+  </div>
+
+  <div>
+    <label for="name">Nome do Veículo:</label>
+    <input type="text" id="name" formControlName="name">
+    <div *ngIf="isFieldInvalid('name')" class="error-message">
+      <span *ngIf="vehicleForm.get('name')?.errors?.['required']">Nome do veículo é obrigatório.</span>
+      <span *ngIf="vehicleForm.get('name')?.errors?.['maxlength']">Nome não pode exceder 100 caracteres.</span>
+    </div>
+  </div>
+
+  <div>
+    <label for="topSpeed">Velocidade Máxima / Classe</label>
+    <input type="text" id="topSpeed" formControlName="topSpeed">
+  </div>
+
+  <div>
+    <label for="seatingCapacity">Quantidade de Assentos</label>
+    <input type="text" id="seatingCapacity" formControlName="seatingCapacity">
+  </div>
+
+  <div>
+    <label for="garage">Garagem:</label>
+    <select id="garage" formControlName="garageId">
+      <option [ngValue]="0" disabled>Selecione uma Garagem</option>
+      <option *ngFor="let garage of garages" [ngValue]="garage.id">
+        {{ garage.name }} (Capacidade: {{ garage.capacity }})
+      </option>
+    </select>
+    <div *ngIf="isFieldInvalid('garageId')" class="error-message">
+      <span *ngIf="vehicleForm.get('garageId')?.errors?.['required'] || vehicleForm.get('garageId')?.errors?.['min']">Selecione uma garagem válida.</span>
+    </div>
+    <p *ngIf="garages.length === 0" style="color: red;">Nenhuma garagem disponível. Por favor, adicione uma garagem primeiro.</p>
+  </div>
+
+  <div>
+    <label for="carImage">Imagem do Veículo (Opcional):</label>
+    <input type="file" id="carImage" accept="image/*" (change)="onFileSelected($event)">
+
+    <div *ngIf="currentCarImagePreview">
+      <img [src]="currentCarImagePreview" alt="Pré-visualização da Imagem" style="max-width: 200px; max-height: 200px; margin-top: 10px; border-radius: 4px;">
+    </div>
+
+    <div *ngIf="imageFileError" class="error-message">
+      <span>{{ imageFileError }}</span>
+    </div>
+  </div>
+
+  <div>
+    <label for="notes">Notas (Opcional):</label>
+    <textarea id="notes" formControlName="notes"></textarea>
+    <div *ngIf="isFieldInvalid('notes')" class="error-message">
+      <span *ngIf="vehicleForm.get('notes')?.errors?.['maxlength']">Notas não podem exceder 500 caracteres.</span>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="garages.length === 0 && !isEditMode">Salvar</button>
+  <button type="button" (click)="router.navigate(['/vehicles'])">Cancelar</button>
+</form>

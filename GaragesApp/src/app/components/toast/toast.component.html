@@ -1,0 +1,4 @@
+<div *ngIf="currentMessage" class="toast-container {{ currentMessage.type }}" (click)="closeToast()">
+  <p>{{ currentMessage.message }}</p>
+  <button class="close-btn" (click)="closeToast()">&times;</button>
+</div>

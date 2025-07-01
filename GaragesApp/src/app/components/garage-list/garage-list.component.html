@@ -1,0 +1,69 @@
+<h2 class="page-title">Minhas Garagens</h2>
+
+<!-- <div class="top-bar"> -->
+  <div class="filters-section" [formGroup]="filterForm">
+    <input type="text" formControlName="searchQuery" placeholder="Pesquisar por nome ou localização">
+    
+    <select formControlName="type">
+      <option value="">Todos os Tipos</option>
+      <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
+    </select>
+
+    <select formControlName="orderBy">
+      <option value="" disabled>Ordenar por</option>
+      <option value="nameAsc">A-Z</option>
+      <option value="nameDesc">Z-A</option>
+      <option value="capacityAsc">Menor capacidade</option>
+      <option value="capacityDesc">Maior capacidade</option>
+      <option value="vehicleCountAsc">Menos veículos alocados</option>
+      <option value="vehicleCountDesc">Mais veículos alocados</option>
+      <option value="availableSlotsAsc">Menos vagas disponíveis</option>
+      <option value="availableSlotsDesc">Mais vagas disponíveis</option>
+    </select>
+  </div>
+
+  <!-- <div class="add-button-wrapper" style="margin-top: 20px;">
+    <a class="add-button" routerLink="/garages/add">Adicionar Nova Garagem</a>
+  </div> -->
+<!-- </div> -->
+
+<p *ngIf="garages.length === 0">Nenhuma garagem cadastrada. <a routerLink="/garages/add">Adicionar uma agora!</a></p>
+
+<div *ngIf="garages.length > 0">
+  
+<div class="garage-grid">
+  <div *ngFor="let garage of garages" class="garage-card">
+     <h3>{{ garage.name }}</h3>
+
+     <div *ngIf="garage.imageUrl">
+        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade" style="max-width: 100px; max-height: 100px;" class="property-image">
+        <p>{{ garage.type }}</p>
+     </div>
+     <div *ngIf="!garage.imageUrl">
+        <p>Insira uma imagem</p>
+     </div>
+      <p>Localização: {{ garage.location }}</p>
+      <p>Estado/Área: {{ garage.stateArea }}</p>
+      <p>Capacidade: {{ garage.capacity }} veículos</p>
+      <p *ngIf="garage.vehicles && garage.vehicles.length">Veículos alocados: {{ garage.vehicles.length || 0 }}</p>
+     <div class="button-group">
+        <button (click)="editGarage(garage.id)">Editar</button>
+        <button (click)="deleteGarage(garage.id)">Excluir</button>
+        <button [routerLink]="['/garages', garage.id, 'vehicles']">Ver Veículos</button>
+     </div>
+  </div>
+</div>
+  
+
+  <div class="pagination-controls" *ngIf="pagination && pagination.totalCount > 1">
+    <button (click)="goToPage(pagination.currentPage - 1)" [disabled]="!pagination.hasPrevious">Anterior</button>
+    
+    <span>Página {{ pagination.currentPage }} de {{ pagination.totalPages }}</span>
+    
+    <button (click)="goToPage(pagination.currentPage + 1)" [disabled]="!pagination.hasNext">Próxima</button>
+
+    <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }} por página</option>
+    </select>
+  </div>
+</div>
