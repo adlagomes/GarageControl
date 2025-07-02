@@ -53,6 +53,15 @@ h2, h3 {
   padding: 1rem;
   margin: 1rem 0;
   transition: transform var(--transition-fast), background-color var(--transition-fast);
+
+  /* novo */
+  width: 300px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  font-family: 'Orbotron', sans-serif;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .garage-card {
@@ -62,6 +71,9 @@ h2, h3 {
 body.dark-mode .garage-card,
 body.dark-mode .vehicle-card {
   background-color: #2c2f33;
+
+  /* novo */
+  border-color: #444;
 }
 
 .garage-card:hover,
@@ -75,7 +87,7 @@ body.dark-mode .vehicle-card:hover {
   background-color: #36393f;
 }
 
-img.property-image, .vehicle-card img {
+.property-image, .vehicle-card img {
   border-radius: 8px;
   max-width: 120px;
   max-height: 120px;
@@ -255,80 +267,7 @@ footer {
 }
 
 /* Estilo da barra de navegação */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: var(--nav-bg, #333);
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-bottom: 2px solid #444;
-}
 
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
-}
-
-nav li {
-  display: inline;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.05rem;
-  transition: color 0.3s;
-}
-
-nav a:hover {
-  color: #00bfff;
-  text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
-}
-
-nav a.active-link {
-  color: #00bfff;
-  font-weight: 600;
-  text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
-}
-
-nav button {
-  padding: 8px 12px;
-}
-
-body.dark-mode header {
-  background-color: #111;
-  border-bottom-color: #555;
-}
-
-body.dark-mode nav a {
-  color: #eee;
-}
-
-body.dark-mode nav a:hover {
-  color: #0ff;
-}
-
-body.dark-mode nav a.active-link {
-  color: #00ffc8;
-  font-weight: 600;
-  text-shadow: 0 0 5px #00ffc8;
-}
 
 body.dark-mode .page-title {
   text-align: center;

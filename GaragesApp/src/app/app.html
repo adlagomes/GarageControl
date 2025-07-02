@@ -2,10 +2,30 @@
   <header>
     <nav>
       <ul>
-        <li><a routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Minhas Garagens</a></li>
-        <li><a routerLink="/garages/add" routerLinkActive="active-link">Adicionar Garagem</a></li>
-        <li><a routerLink="/vehicles" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Todos os Veículos</a></li>
-        <li><a routerLink="/vehicles/add" routerLinkActive="active-link">Adicionar veículo</a></li>
+        <li>
+          <a routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-warehouse"></i>
+            Propriedades
+          </a>
+        </li>
+        <li>
+          <a routerLink="/garages/add" routerLinkActive="active-link">
+            <i class="fas fa-plus-circle"></i>
+            Adicionar Propriedade
+          </a>
+        </li>
+        <li>
+          <a routerLink="/vehicles" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-car"></i>
+            Veículos
+          </a>
+        </li>
+        <li>
+          <a routerLink="/vehicles/add" routerLinkActive="active-link">
+            <i class="fas fa-plus"></i>
+            Adicionar veículo
+          </a>
+        </li>
       </ul>
       <div class="nav-right-actions theme-toggle">
         <button (click)="toggleDarkMode()" [class.active]="isDarkMode">

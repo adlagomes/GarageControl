@@ -32,10 +32,10 @@
 <div *ngIf="garages.length > 0">
   <div class="garage-grid">
     <div *ngFor="let garage of garages" class="garage-card" [routerLink]="['/garages', garage.id, 'vehicles']">
-      <p>{{ garage.type }}</p>
+      <p class="garage-type">{{ garage.type }}</p>
       
-      <div *ngIf="garage.imageUrl">
-        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade" class="property-image">
+      <div class="property-image" *ngIf="garage.imageUrl">
+        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade">
       </div>
       <div *ngIf="!garage.imageUrl">
         <p>Insira uma imagem</p>

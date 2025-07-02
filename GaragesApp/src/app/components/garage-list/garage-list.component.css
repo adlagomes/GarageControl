@@ -12,10 +12,19 @@
 }
 
 .property-image {
-  max-width: 100px;
-  max-height: 80px;
+  width: 100%;
+  height: 160px;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.garage-type {
+  background-color: #007700;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.85rem;
 }
 
 /* Botões de paginação */
