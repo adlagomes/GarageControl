@@ -19,12 +19,13 @@
 }
 
 .garage-type {
-  background-color: #007700;
+  background-color: #7185d3;
   color: white;
+  font-family: var(--font-title);
   font-weight: bold;
   text-align: center;
   padding: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 1.1rem;
 }
 
 /* Botões de paginação */

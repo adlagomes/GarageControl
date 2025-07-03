@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
-import { ToastComponent } from "./components/toast/toast.component";
+import { ToastComponent } from "./components/shared/toast/toast.component";
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 export class App {
   protected title = 'GaragesApp';
   isDarkMode = false;
+  themeColor: 'cyanGreen' | 'pink' | 'blue' | 'purple' = 'cyanGreen';
+  showColorMenu = false;
 
   ngOnInit(): void {
     // Aplica o tema escuro se o usuário ativou anteriormente
@@ -26,5 +28,10 @@ export class App {
     this.isDarkMode = !this.isDarkMode;
     document.body.classList.toggle('dark-mode', this.isDarkMode);
     localStorage.setItem('darkMode', this.isDarkMode.toString());
+  }
+
+  setThemeColor(color: 'pink' | 'blue' | 'purple' | 'cyanGreen') {
+    this.themeColor = color;
+    localStorage.setItem('themeColor', color);
   }
 }

@@ -1,6 +1,6 @@
 
 <form [formGroup]="garageForm" (ngSubmit)="onSubmit()">
-  <h2>{{ isEditMode ? 'Editar Propriedade' : 'Adicionar Nova Propriedade' }}</h2>
+  <h2 class="subtitle">{{ isEditMode ? 'Editar Propriedade' : 'Adicionar Nova Propriedade' }}</h2>
   <input type="hidden" formControlName="id">
 
   <div>

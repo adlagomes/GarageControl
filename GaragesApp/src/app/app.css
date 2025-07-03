@@ -1,10 +1,11 @@
+
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: var(--nav-bg, #333);
+  background-color: #333;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid #444;
@@ -50,25 +51,64 @@ nav a.active-link {
   text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
 }
 
-nav button {
-  padding: 8px 12px;
+/* Estilo MENU flutuante */
+.theme-controls {
+  position: relative;
+  display: inline-block;
 }
 
-body.dark-mode header {
-  background-color: #111;
-  border-bottom-color: #555;
+.config-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #888;
+  padding-right: 2rem;
+  transition: color 0.2s ease;
 }
 
-body.dark-mode nav a {
-  color: #eee;
+.config-button:hover {
+  color: #00bfff;
 }
 
-body.dark-mode nav a:hover {
-  color: #0ff;
+.config-button i {
+  display: block;
+  transition: transform 0.4s ease-in-out;
 }
 
-body.dark-mode nav a.active-link {
-  color: #00ffc8;
-  font-weight: 600;
-  text-shadow: 0 0 5px #00ffc8;
+.config-button i.active-menu {
+  color: #00bfff;
+  transform: rotate(25deg);
 }
+
+.color-menu {
+  position: absolute;
+  top: 150%;
+  right: 97%;
+  background: #222222de;
+  padding: 10px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.color-circle {
+  width: 16px;
+  height: 25px;
+  margin-right: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(94, 94, 94);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+.color-circle.cyanGreen { background-color: #00ffc8; }
+.color-circle.colorPink  { background-color: #ff4dff; }
+.color-circle.colorBlue  { background-color: #1e90ff; }
+.color-circle.colorPurple  { background-color: #cc66ff; }

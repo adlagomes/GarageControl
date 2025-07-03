@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@500;700&family=Satisfy&display=swap');
+
 /* === Tema Claro e Escuro (alternável com body.dark-mode) === */
 :root {
   --primary-color: #2c2f33;
@@ -6,29 +9,40 @@
   --bg-dark: #1e2124;
   --text-light: #ffffff;
   --text-dark: #2c2f33;
+  --box-shadow: rgba(0, 0, 0, 0.15);
   --card-radius: 12px;
   --transition-fast: 0.2s ease-in-out;
+
+  --color-title-properties-light: #d63384;
+  --color-shadow-properties-light: #ffb3d9;
+  --color-title-properties-dark: #ff66cc;
+  --color-shadow-properties-dark: #ff33cc;
+  --color-title-vehicles-light: #1e88e5;
+  --color-shadow-vehicles-light: #bbdefb;
+  --color-title-vehicles-dark: #00ffff;
+  --color-shadow-vehicles-dark: #00ccff;
+
+  --button-edit-bg: #28a745;
+  --button-edit-text: white;
+  --button-edit-hover-bg: #218838;
+
+  --button-delete-bg: #dc3545;
+  --button-delete-text: white;
+  --button-delete-hover-bg: #c82333;
+
+  --font-cursive: "Satisfy", cursive;
+  --font-highlight: 'Orbitron', sans-serif;
+  --font-primary: "Open Sans", sans-serif;
+  --font-title: "Montserrat", sans-serif;
+
+  --toggle-color-off: #c7c7c7;
+  --toggle-color-on: #00ffc8;
+  --toggle-glow-on: 0 0 8px #00ffc8cc;
 }
-
-/*  */
-
-body.light-theme .pagination-container button {
-  border-color: #1b1b1b;
-  color: #1b1b1b;
-}
-
-body.light-theme .pagination-container button:hover {
-  background-color: #1b1b1b;
-  color: #ffffff;
-}
-
-/*  */
-
 
 body {
   background-color: var(--bg-light);
   color: var(--text-dark);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding-top: 60px;
   padding-bottom: 8rem;
@@ -40,16 +54,145 @@ body.dark-mode {
   color: var(--text-light);
 }
 
+body, select, option, input {
+  font-family: var(--font-primary);
+  font-size: .9rem;
+}
+
+/* Estilo da barra de navegação */
+body.dark-mode .main-header {
+  background-color: #111;
+  border-bottom-color: #555;
+}
+
+body.dark-mode .navbar .nav-link {
+  color: #eee;
+}
+
+body.dark-mode .navbar .nav-link:hover {
+  color: #00ffc8;
+  text-shadow: 0 0 5px #00d4a6d2;
+}
+
+body.dark-mode .navbar .nav-link.active-link {
+  color: #00ffc8;
+  font-weight: 600;
+  text-shadow: 0 0 5px #00d4a6d2;
+}
+
+/* Botão TOGGLE */
+.theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1.2rem;
+}
+
+.toggle-button {
+  background-color: transparent !important;
+  color: var(--toggle-icon-color);
+  padding: 0;
+  cursor: pointer;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.toggle-button:hover {
+  background-color: transparent;
+  transform: scale(1.1);
+}
+
+.toggle-button i {
+  color: var(--toggle-color-off);
+  transition: color 0.3s ease, text-shadow 0.3 ease;
+}
+
+.toggle-button.active.cyanGreen i.fa-toggle-on{
+  color: var(--toggle-color-on);
+  text-shadow: var(--toggle-glow-on);
+  animation: neonPulse 1.8s infinite ease-in-out;
+  transform: scale(1.1)
+}
+
+.toggle-button.active.pink i.fa-toggle-on {
+  color: #ff4dff;
+  text-shadow: #c92b8c;
+  animation: neonPulsePink 1.8s infinite ease-in-out;
+}
+
+.toggle-button.active.blue i.fa-toggle-on {
+  color: #1e90ff;
+  text-shadow: #1978d6;
+  animation: neonPulseBlue 1.8s infinite ease-in-out;
+}
+
+
+.toggle-button.active.purple i.fa-toggle-on {
+  color: #cc66ff;
+  text-shadow: #a756cf;
+  animation: neonPulsePurple 1.8s infinite ease-in-out;
+}
+
+
+.toggle-button:not(.active) i.fa-toggle-off {
+  color: var(--toggle-color-off);
+  text-shadow: none;
+}
+
+/* título principal da página */
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.page-properties {
+  font-family: var(--font-cursive);
+  color: var(--color-title-properties-light); /* rosa vibrante */
+  text-shadow:
+    0 0 2px var(--color-title-properties-light),
+    0 0 4px var(--color-shadow-properties-light);
+}
+
+body.dark-mode .page-properties {
+  color: var(--color-title-properties-dark);
+  text-shadow:
+    0 0 4px var(--color-title-properties-dark),
+    0 0 8px var(--color-shadow-properties-dark);
+}
+
+.page-vehicles {
+  font-family: var(--font-highlight);
+  color: var(--color-title-vehicles-light); /* azul vibrante */
+  text-shadow:
+    0 0 2px var(--color-title-vehicles-light),
+    0 0 4px var(--color-shadow-vehicles-light);
+}
+
+body.dark-mode .page-vehicles {
+  color: var(--color-title-vehicles-dark);
+  text-shadow:
+    0 0 3px var(--color-title-vehicles-dark),
+    0 0 7px var(--color-shadow-vehicles-dark);
+}
+
+.subtitle {
+  font-family: var(--font-subtitles);
+}
+
 h2, h3 {
   font-weight: 600;
   color: var(--secondary-color);
 }
 
+
+
 /* === Cards (Garage e Vehicle) === */
 .garage-card, .vehicle-card {
   background-color: #fff;
   border-radius: var(--card-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--box-shadow);
   padding: 1rem;
   margin: 1rem 0;
   transition: transform var(--transition-fast), background-color var(--transition-fast);
@@ -58,10 +201,9 @@ h2, h3 {
   width: 300px;
   border: 1px solid #ccc;
   overflow: hidden;
-  font-family: 'Orbotron', sans-serif;
+  font-family: var(--font-subtitles);
   display: flex;
   flex-direction: column;
-
 }
 
 .garage-card {
@@ -71,8 +213,6 @@ h2, h3 {
 body.dark-mode .garage-card,
 body.dark-mode .vehicle-card {
   background-color: #2c2f33;
-
-  /* novo */
   border-color: #444;
 }
 
@@ -87,7 +227,7 @@ body.dark-mode .vehicle-card:hover {
   background-color: #36393f;
 }
 
-.property-image, .vehicle-card img {
+.property-image, .vehicle-image {
   border-radius: 8px;
   max-width: 120px;
   max-height: 120px;
@@ -101,16 +241,16 @@ button {
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
-  /* background-color: var(--secondary-color); */
-  /* color: white; */
+  background-color: var(--secondary-color);
+  color: white;
   font-size: .9rem;
   cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
-/* button:hover {
+button:hover {
   background-color: #5b6eae;
-} */
+}
 
 .cancel-button {
   background-color: #999;
@@ -123,47 +263,49 @@ button {
 .button-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  justify-content: end;
+  /* gap: 8px; */
   margin-top: 0.75rem;
 }
 
-.button-group button {
-  background-color: #222;
-  color: #00ffe0;
-  border: 2px solid #00ffe0;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  text-shadow: 0 0 5px #00ffe0;
-  box-shadow: 0 0 5px #00ffe0 inset;
-  transition: all 0.3s ease;
+.button-group .button-edit {
+  font-size: 1.2rem;
+  padding: 0;
+  color: var(--button-edit-bg);
+  background-color: transparent;
+  transition: color var(--transition-fast);
 }
 
-.button-group button:hover {
-  background-color: #00ffe0;
-  color: #000;
-  box-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0, 0 0 30px #00ffe0;
+.button-group .button-edit:hover {
+  color: var(--button-edit-hover-bg);
+  background-color: transparent;
 }
 
-/* Neon para modo claro */
-body:not(.dark-mode) .button-group button,
-body:not(.dark-mode) .add-button {
-  background-color: #fff;
-  color: #0077ff;
-  border: 2px solid #0077ff;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  text-shadow: 0 0 3px #66b2ff;
-  box-shadow: 0 0 4px #66b2ff inset;
-  transition: all 0.3s ease;
+.button-group .button-delete {
+  font-size: 1.2rem;
+  color: var(--button-delete-bg);
+  background-color: transparent;
+  transition: color var(--transition-fast);
 }
 
-body:not(.dark-mode) .button-group button:hover,
-body:not(.dark-mode) .add-button:hover {
-  background-color: #0077ff;
-  color: white;
-  box-shadow: 0 0 10px #66b2ff, 0 0 20px #66b2ff, 0 0 30px #66b2ff;
+.button-group .button-delete:hover {
+  color: var(--button-delete-hover-bg);
+  background-color: transparent;
+}
+
+body.dark-mode .config-button i.fa-gear {
+  display: block;
+  transition: transform 0.4s ease-in-out;
+}
+
+body.dark-mode .config-button:hover {
+  color: #00ffc8;
+}
+
+body.dark-mode .config-button i.fa-gear.active-menu {
+  color: #00ffc8;
+  transform: rotate(25deg);
 }
 
 /* === Filtros e Formulários === */
@@ -191,40 +333,6 @@ label {
 .error-message {
   color: red;
   font-size: 0.9em;
-}
-
-.theme-toggle {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 1rem;
-}
-
-.theme-toggle button {
-  background-color: #444;
-  color: #fff;
-  padding: 8px 16px;
-  font-size: 1rem;
-  border-radius: 30px;
-  border: 2px solid #888;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: bold;
-}
-
-.theme-toggle button:hover {
-  background-color: #555;
-}
-
-.theme-toggle button.active {
-  background-color: #7289da;
-  border-color: #7289da;
-  color: #fff;
-}
-
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 .main-content {
@@ -255,31 +363,12 @@ footer {
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.top-bar {
-  display: flex;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
 /* Estilo da barra de navegação */
-
-
 body.dark-mode .page-title {
   text-align: center;
   margin: 2rem 0 1rem;
   font-size: 2rem;
   color: var(--title-color, #fff);
-}
-
-.page-title {
-  text-align: center;
-  margin: 2rem 0 1rem;
-  font-size: 2rem;
 }
 
 .filters-section {
@@ -296,10 +385,10 @@ body.dark-mode .page-title {
   border-radius: 6px;
   border: 1px solid #ccc;
   min-width: 200px;
+  outline: none;
 }
 
 /* Pagination style */
-
 body.dark-mode .pagination-container button {
   background-color: transparent;
   border-color: #00ffc8;
@@ -345,3 +434,66 @@ body:not(.dark-mode) .pagination-container select:hover,
 body:not(.dark-mode) .pagination-container select:focus {
   box-shadow: 0 0 10px #66b2ff;
 }
+
+/* Botões escolher tema */
+.tema-selector {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.tema-selector button {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Efeitos de Animação */
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 2px #00ffc8, 0 0 10px #00ffc8, 0 0 20px #00ffc8;
+  }
+  50% {
+    text-shadow: 0 0 4px #00d4a6, 0 0 8px #00d4a6, 0 0 24px #00d4a6;
+  }
+  100% {
+    text-shadow: 0 0 2px #00ffc8, 0 0 10px #00ffc8, 0 0 20px #00ffc8;
+  }
+}
+
+@keyframes neonPulsePink {
+  0% {
+    text-shadow: 0 0 2px #ff4dff, 0 0 10px #ff4dff, 0 0 20px #ff4dff;
+  }
+  50% {
+    text-shadow: 0 0 4px #ff99ff, 0 0 8px #ff99ff, 0 0 24px #ff99ff;
+  }
+  100% {
+    text-shadow: 0 0 2px #ff4dff, 0 0 10px #ff4dff, 0 0 20px #ff4dff;
+  }
+}
+
+@keyframes neonPulseBlue {
+  0% {
+    text-shadow: 0 0 2px #1e90ff, 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+  }
+  50% {
+    text-shadow: 0 0 4px #33ccff, 0 0 8px #33ccff, 0 0 24px #33ccff;
+  }
+  100% {
+    text-shadow: 0 0 2px #1e90ff, 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+  }
+}
+
+@keyframes neonPulsePurple {
+  0% {
+    text-shadow: 0 0 2px #cc66ff, 0 0 10px #cc66ff, 0 0 20px #cc66ff;
+  }
+  50% {
+    text-shadow: 0 0 4px #b266ff, 0 0 8px #b266ff, 0 0 24px #b266ff;
+  }
+  100% {
+    text-shadow: 0 0 2px #cc66ff, 0 0 10px #cc66ff, 0 0 20px #cc66ff;
+  }
+}
+

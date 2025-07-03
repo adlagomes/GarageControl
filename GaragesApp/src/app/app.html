@@ -1,38 +1,49 @@
-<div class="page-wrapper">
-  <header>
-    <nav>
+  <header class="main-header">
+    <nav class="navbar">
       <ul>
         <li>
-          <a routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link active-link" routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-warehouse"></i>
-            Propriedades
+            Propriedades |
           </a>
         </li>
         <li>
-          <a routerLink="/garages/add" routerLinkActive="active-link">
+          <a class="nav-link active-link" routerLink="/garages/add" routerLinkActive="active-link">
             <i class="fas fa-plus-circle"></i>
-            Adicionar Propriedade
+            Adicionar Propriedade |
           </a>
         </li>
         <li>
-          <a routerLink="/vehicles" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link active-link" routerLink="/vehicles" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-car"></i>
-            Veículos
+            Veículos |
           </a>
         </li>
         <li>
-          <a routerLink="/vehicles/add" routerLinkActive="active-link">
+          <a class="nav-link active-link" routerLink="/vehicles/add" routerLinkActive="active-link">
             <i class="fas fa-plus"></i>
-            Adicionar veículo
+            Adicionar veículo |
           </a>
         </li>
       </ul>
       <div class="nav-right-actions theme-toggle">
-        <button (click)="toggleDarkMode()" [class.active]="isDarkMode">
-          <span *ngIf="!isDarkMode" title="Claro"><i class="fa-solid fa-sun"></i></span>
-          <span *ngIf="isDarkMode" title="Escuro"><i class="fa-solid fa-moon"></i></span>
+        <button class="toggle-button" [class.active]="isDarkMode" [ngClass]="themeColor" (click)="toggleDarkMode()">
+          <span *ngIf="!isDarkMode" title="Ativar Tema Escuro"><i class="fa-solid fa-toggle-off"></i></span>
+          <span *ngIf="isDarkMode" title="Ativar Tema Claro"><i class="fa-solid fa-toggle-on"></i></span>
         </button>
-      </div>  
+      </div> 
+
+      <div class="theme-controls">
+        <button class="config-button" (click)="showColorMenu = !showColorMenu" >
+          <i class="fa-solid fa-gear" [class.active-menu]="showColorMenu"></i>
+        </button>
+        <div class="color-menu" *ngIf="showColorMenu">
+          <button class="color-circle cyanGreen" (click)="setThemeColor('cyanGreen'); showColorMenu = false" title="Verde Ciano"></button>
+          <button class="color-circle colorBlue" (click)="setThemeColor('blue'); showColorMenu = false" title="Azul" ></button>
+          <button class="color-circle colorPink" (click)="setThemeColor('pink'); showColorMenu = false" title="Rosa"></button>
+          <button class="color-circle colorPurple" (click)="setThemeColor('purple'); showColorMenu = false" title="Roxo"></button>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -44,4 +55,3 @@
   <footer>
     <p>&copy; 2025 - Propriedades e Veículos Grand Theft Auto V</p>
   </footer>
-</div>

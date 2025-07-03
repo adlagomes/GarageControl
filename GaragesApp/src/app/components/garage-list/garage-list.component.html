@@ -1,4 +1,4 @@
-<h2 class="page-title">Minhas Garagens</h2>
+<h2 class="title page-properties">Propriedades</h2>
 
 <!-- <div class="top-bar"> -->
   <div class="filters-section" [formGroup]="filterForm">
@@ -27,7 +27,7 @@
   </div> -->
 <!-- </div> -->
 
-<p *ngIf="garages.length === 0">Nenhuma garagem cadastrada. <a routerLink="/garages/add">Adicionar uma agora!</a></p>
+<p *ngIf="garages.length === 0">Nenhuma garagem cadastrada. <a style="color: deepskyblue;" routerLink="/garages/add">Adicionar uma agora!</a></p>
 
 <div *ngIf="garages.length > 0">
   <div class="garage-grid">
@@ -47,9 +47,8 @@
       <p><i class="fa-solid fa-warehouse"></i> {{ garage.capacity }} veículos</p>
       <p *ngIf="garage.vehicles && garage.vehicles.length"><i class="fa-solid fa-car"></i> {{ garage.vehicles.length || 0 }}</p>
       <div class="button-group">
-        <button (click)="editGarage(garage.id)">Editar</button>
-        <button (click)="deleteGarage(garage.id)">Excluir</button>
-        <!-- <button [routerLink]="['/garages', garage.id, 'vehicles']">Ver Veículos</button> -->
+        <button class="button-edit" (click)="editGarage(garage.id)" title="Editar Propriedade"><i class="fa-solid fa-pencil"></i></button>
+        <button class="button-delete" (click)="deleteGarage(garage.id)" title="Excluir Propriedade"><i class="fa-regular fa-trash-can"></i></button>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
-<h2>
-  {{ garageId ? 'Veículos na Garagem: ' + garageName : 'Todos os Veículos' }}
+<h2 class="title page-vehicles">
+  {{ garageId ? 'Veículos na Garagem: ' + garageName : 'Veículos' }}
 </h2>
 
 <p *ngIf="vehicles.length === 0">
@@ -65,7 +65,7 @@
 <div *ngIf="vehicles.length > 0">
   <div *ngFor="let vehicle of vehicles" class="vehicle-card">
     <h3>{{ vehicle.name }}</h3>
-    <div *ngIf="vehicle.carImage">
+    <div class="vehicle-image" *ngIf="vehicle.carImage">
       <img [src]="getBaseUrl() + '/images/vehicles/' + vehicle.carImage" alt="Imagem do Veículo"
         style="max-width: 100px; max-height: 100px;">
     </div>
