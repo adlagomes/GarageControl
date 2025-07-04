@@ -118,7 +118,8 @@ body.dark-mode .page-vehicles {
 }
 
 .subtitle {
-  font-family: var(--font-subtitles);
+  font-size: 2rem;
+  text-align: center;
 }
 
 h2, h3 {
