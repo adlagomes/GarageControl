@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Necessário para diretivas como *ngFor
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'; // Para usar ngModel
 import { ActivatedRoute ,Router } from '@angular/router'; // Para obter parâmetros da rota e navegar
@@ -6,6 +6,7 @@ import { GarageService } from '../../services/garageService/garage.service';
 import { NotificationService } from '../../services/notification.service';
 import { Garage } from '../../models/garage.model'; // Modelo de dados da garagem
 import { PropertyTypeService } from '../../services/property-type.service';
+
 
 @Component({
   selector: 'app-garage-form',
@@ -23,6 +24,8 @@ export class GarageFormComponent implements OnInit {
   originalImageUrl: string | null = null;
   imageFileError: string | null = null; // Variável para armazenar erros de arquivo de imagem
   propertyTypes: string[] = [];
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private fb: FormBuilder, // Para construir o formulário reativo
@@ -139,8 +142,11 @@ export class GarageFormComponent implements OnInit {
   removeImage(): void {
     this.selectedFile = null;
     this.currentImagePreview = null;
-    // Isso é importante: se estiver editando, precisamos informar ao backend para remover a imagem.
-    // Usaremos um FormData para isso no onSubmit.
+    this.garageForm.get('removeExistingImage')?.setValue(true);
+
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 
   onSubmit(): void {

@@ -55,7 +55,7 @@
       <label class="form-label add-photo-button" for="imageFile">
         <i class="fa-solid fa-camera-retro"></i>
       </label>
-      <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)">
+      <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)" #fileInput>
       <div class="error-message" *ngIf="imageFileError">
         <span>{{ imageFileError }}</span>
       </div>
@@ -63,26 +63,13 @@
   </div>
     
   <div class="form-image-previews-and-actions">
-    <div class="form-image-preview" *ngIf="currentImagePreview">
-    <p>Pré-visualização da Imagem:</p>
-      <img [src]="currentImagePreview" alt="Pré-visualização da imagem da propriedade">
-      <p *ngIf="isEditMode && currentImagePreview !== getBaseUrl() + originalImageUrl">
-        Nova imagem selecionada.
-      </p>
+    <div class="form-image-preview" *ngIf="currentImagePreview || (isEditMode && originalImageUrl) && !garageForm.get('removeExistingImage')?.value">
+      <img [src]="currentImagePreview || (getBaseUrl() + originalImageUrl)" alt="Imagem da propriedade">
+      <button type="button" class="form-button form-button-remove-image" (click)="removeImage()" title="Remover imagem" >
+        <i class="fa-solid fa-trash-can"></i> Excluir
+      </button>
     </div>
 
-    <div class="form-image-existing" *ngIf="isEditMode && !selectedFile && originalImageUrl && !garageForm.get('removeExistingImage')?.value">
-      <p>Imagem existente:</p>
-      <img [src]="getBaseUrl() + originalImageUrl" alt="Imagem atual da propriedade.">
-    </div>
-  
-    <div class="form-image-remove" *ngIf="isEditMode && originalImageUrl">
-      <input class="form-input" type="checkbox" id="removeExistingImage" formControlName="removeExistingImage">
-      <label class="form-label" for="removeExistingImage">Remover imagem existente</label>
-    </div>
-
-
-    <button class="form-button" type="button" (click)="removeImage()">Remover Imagem</button>
     <div class="error-message" *ngIf="imageFileError">
       <span>{{ imageFileError }}</span>
     </div>
