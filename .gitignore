@@ -1,6 +1,7 @@
 # FRONTEND (Angular)
 GaragesApp/node_modules/
 GaragesApp/dist/
+GaragesApp/.angular/
 
 # BACKEND (.NET)
 GaragesAPI/bin/

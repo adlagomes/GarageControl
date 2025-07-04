@@ -1,13 +1,8 @@
-<h2>
-  {{ garageId ? 'Veículos na Garagem: ' + garageName : 'Todos os Veículos' }}
+<h2 class="title page-vehicles">
+  {{ garageId ? 'Veículos na Garagem: ' + garageName : 'Veículos' }}
 </h2>
 
-<p *ngIf="vehicles.length === 0">
-  Nenhum veículo encontrado.
-  <a routerLink="/vehicles/add">Adicionar um veículo agora!</a>
-</p>
-
-<div class="filter-controls" [formGroup]="filterForm">
+<div class="filters-section" [formGroup]="filterForm">
   <input type="text" formControlName="searchQuery" placeholder="Buscar por nome, tipo, fabricante, categoria ou notas..." />
 
   <select formControlName="type">
@@ -62,37 +57,53 @@
   </div>
 </div>
 
+<p class="empty-state-message" *ngIf="vehicles.length === 0">
+  Nenhum veículo encontrado.
+  <a routerLink="/vehicles/add">Adicionar um veículo agora!</a>
+</p>
+
 <div *ngIf="vehicles.length > 0">
-  <div *ngFor="let vehicle of vehicles" class="vehicle-card">
-    <h3>{{ vehicle.name }}</h3>
-    <div *ngIf="vehicle.carImage">
-      <img [src]="getBaseUrl() + '/images/vehicles/' + vehicle.carImage" alt="Imagem do Veículo"
-        style="max-width: 100px; max-height: 100px;">
-    </div>
-    <div *ngIf="!vehicle.carImage">
-      <p>Sem imagem</p>
-    </div>
-    <p>Tipo: {{ vehicle.type }}</p>
-    <p>Fabricante: {{ vehicle.manufacturer }}</p>
-    <p>Categoria: {{ vehicle.category }}</p>
-    <p>Velocidade Máxima: {{ vehicle.topSpeed }} km/h</p>
-    <p>Capacidade de Assentos: {{ vehicle.seatingCapacity }}</p>
-    <p *ngIf="vehicle.notes">Notas: {{ vehicle.notes }}</p>
-    <p *ngIf="vehicle.garage">Garagem: {{ vehicle.garage.name }}</p>
-    <div>
-      <button (click)="editVehicle(vehicle.id)">Editar</button>
-      <button (click)="deleteVehicle(vehicle.id)">Excluir</button>
+  <div class="card-grid">
+    <div class="app-card" *ngFor="let vehicle of vehicles">
+      <div class="card-type">
+        <p>{{ vehicle.name }}</p>
+      </div>
+
+      <div class="card-image-container" *ngIf="vehicle.imageUrl">
+        <img class="card-image" [src]="getBaseUrl() + vehicle.imageUrl" alt="Imagem do Veículo">
+      </div>
+      <div class="card-image-container" *ngIf="!vehicle.imageUrl">
+        <p>Sem imagem :&#40;</p>
+      </div>
+
+      <div class="card-content">
+
+        <div class="card-details">
+          <p>{{ vehicle.type }}</p>
+          <p>{{ vehicle.manufacturer }}</p>
+          <p>{{ vehicle.category }}</p>
+          <p *ngIf="vehicle.garage">Garagem: {{ vehicle.garage.name }}</p>
+          <p *ngIf="vehicle.notes">Notas: {{ vehicle.notes }}</p>
+        </div>
+
+        <div class="card-icons">
+          <p><i class="fa-solid fa-gauge-high"></i> {{ vehicle.topSpeed ? vehicle.topSpeed + 'MPH' : '--'}}</p>
+          <p><i class="fa-solid fa-users"></i> {{ vehicle.seatingCapacity ? vehicle.seatingCapacity : '0'}}</p>
+        </div>
+
+        <div class="button-group">
+          <button class="button-edit" (click)="editVehicle(vehicle.id)" title="Editar Veículo"><i class="fa-solid fa-pencil"></i></button>
+          <button class="button-delete" (click)="deleteVehicle(vehicle.id)" title="Excluir Veículo"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="pagination" class="pagination-controls">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="!pagination.hasPrevious">Anterior</button>
-    <span>Página {{ currentPage }} de {{ pagination.totalPages }}</span>
-    <button (click)="goToPage(currentPage + 1)" [disabled]="!pagination.hasNext">Próxima</button>
-
-    <label for="pageSizeSelect">Itens por página:</label>
-    <select id="pageSizeSelect" [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
-      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-    </select>
-  </div>
+  <app-pagination
+    [pagination]="pagination"
+    [pageSize]="pageSize"
+    [pageSizes]="pageSizes"
+    (pageChange)="goToPage($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
 </div>

@@ -7,11 +7,12 @@ import { GarageService, PaginationMetadata } from '../../services/garageService/
 import { Vehicle } from '../../models/vehicle.model'; // Importe a interface Vehicle
 import { PagedVehiclesResponse, VehicleQueryParams, VehicleService } from '../../services/vehicleService/vehicle.service'; // Importe o serviço de veículos
 import { NotificationService } from '../../services/notification.service';
+import { Pagination } from '../shared/pagination/pagination';
 
 @Component({
   selector: 'app-vehicle-list.component',
   standalone: true, // É um componente standalone
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule, Pagination],
   templateUrl: './vehicle-list.component.html',
   styleUrl: './vehicle-list.component.css'
 })
@@ -22,7 +23,7 @@ export class VehicleListComponent implements OnInit {
   pagination: PaginationMetadata | null = null;
   currentPage: number = 1;
   pageSize: number = 10;
-  pageSizes: number[] = [5, 10, 20, 50];
+  pageSizes: number[] = [5, 10, 20, 50]
   filterForm!: FormGroup;
   vehicleTypes: string[] = [
     "Carro Esportivo",
@@ -231,18 +232,17 @@ export class VehicleListComponent implements OnInit {
 
     // Métodos de Paginação
   goToPage(page: number): void {
-    if (this.pagination && page >= 1 && page <= this.pagination.totalPages) {
+    if (page >= 1 && page <= (this.pagination?.totalPages || 1)) {
       this.currentPage = page;
       this.loadAllVehicles();
     }
   }
 
-  onPageSizeChange(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    this.pageSize = Number(selectElement.value);
-    this.currentPage = 1; // Volta para a primeira página ao mudar o tamanho da página
-    this.loadAllVehicles();
-  }
+onPageSizeChange(newPageSize: number): void {
+  this.pageSize = newPageSize;
+  this.currentPage = 1;
+  this.loadAllVehicles();
+}
 
     // Implementação de getBaseUrl()
   getBaseUrl(): string {

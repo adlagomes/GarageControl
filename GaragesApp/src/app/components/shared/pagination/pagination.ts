@@ -9,12 +9,14 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./pagination.css']
 })
 export class Pagination {
-@Input() pagination: any = {};
+  @Input() pagination: any = {};
   @Input() pageSize!: number;
   @Input() pageSizes: number[] = [];
+  @Input() isDarkMode: boolean = false;
 
   @Output() pageChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
+
 
   goToPage(page: number) {
     if (page >= 1 && page <= this.pagination.totalPages && page !== this.pagination.currentPage) {

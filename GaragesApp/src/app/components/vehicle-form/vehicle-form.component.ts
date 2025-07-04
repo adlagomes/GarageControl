@@ -79,8 +79,8 @@ export class VehicleFormComponent implements OnInit {
       next: (data) => {
         this.vehicleForm.patchValue(data);  // Preenche o formulário com os dados do veículo
 
-        if (data.carImage) {
-          this.currentCarImagePreview = data.carImage; // Define a pré-visualização da imagem do carro se existir
+        if (data.imageUrl) {
+          this.currentCarImagePreview = data.imageUrl; // Define a pré-visualização da imagem do carro se existir
         } else {
           this.currentCarImagePreview = null; // Reseta a pré-visualização se não houver imagem
         }

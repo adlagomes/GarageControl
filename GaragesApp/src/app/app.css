@@ -1,0 +1,235 @@
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #333;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #444;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+nav li {
+  display: inline;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.05rem;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #00bfff;
+  text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+}
+
+nav a.active-link {
+  color: #00bfff;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+}
+
+/* Botão TOGGLE */
+.theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1.2rem;
+}
+
+.toggle-button {
+  background-color: transparent !important;
+  color: var(--toggle-icon-color);
+  padding: 0;
+  cursor: pointer;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.toggle-button:hover {
+  background-color: transparent;
+  transform: scale(1.1);
+}
+
+.toggle-button i {
+  color: var(--toggle-color-off);
+  transition: color 0.3s ease, text-shadow 0.3 ease;
+}
+
+.toggle-button.active.cyanGreen i.fa-toggle-on{
+  color: var(--toggle-color-on);
+  text-shadow: var(--toggle-glow-on);
+  animation: neonPulse 1.8s infinite ease-in-out;
+  transform: scale(1.1)
+}
+
+.toggle-button.active.pink i.fa-toggle-on {
+  color: #ff4dff;
+  text-shadow: #c92b8c;
+  animation: neonPulsePink 1.8s infinite ease-in-out;
+}
+
+.toggle-button.active.blue i.fa-toggle-on {
+  color: #1e90ff;
+  text-shadow: #1978d6;
+  animation: neonPulseBlue 1.8s infinite ease-in-out;
+}
+
+.toggle-button.active.purple i.fa-toggle-on {
+  color: #cc66ff;
+  text-shadow: #a756cf;
+  animation: neonPulsePurple 1.8s infinite ease-in-out;
+}
+
+.toggle-button:not(.active) i.fa-toggle-off {
+  color: var(--toggle-color-off);
+  text-shadow: none;
+}
+
+/* Efeitos de Animação */
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 2px #00ffc8, 0 0 10px #00ffc8, 0 0 20px #00ffc8;
+  }
+  50% {
+    text-shadow: 0 0 4px #00d4a6, 0 0 8px #00d4a6, 0 0 24px #00d4a6;
+  }
+  100% {
+    text-shadow: 0 0 2px #00ffc8, 0 0 10px #00ffc8, 0 0 20px #00ffc8;
+  }
+}
+
+@keyframes neonPulsePink {
+  0% {
+    text-shadow: 0 0 2px #ff4dff, 0 0 10px #ff4dff, 0 0 20px #ff4dff;
+  }
+  50% {
+    text-shadow: 0 0 4px #ff99ff, 0 0 8px #ff99ff, 0 0 24px #ff99ff;
+  }
+  100% {
+    text-shadow: 0 0 2px #ff4dff, 0 0 10px #ff4dff, 0 0 20px #ff4dff;
+  }
+}
+
+@keyframes neonPulseBlue {
+  0% {
+    text-shadow: 0 0 2px #1e90ff, 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+  }
+  50% {
+    text-shadow: 0 0 4px #33ccff, 0 0 8px #33ccff, 0 0 24px #33ccff;
+  }
+  100% {
+    text-shadow: 0 0 2px #1e90ff, 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+  }
+}
+
+@keyframes neonPulsePurple {
+  0% {
+    text-shadow: 0 0 2px #cc66ff, 0 0 10px #cc66ff, 0 0 20px #cc66ff;
+  }
+  50% {
+    text-shadow: 0 0 4px #b266ff, 0 0 8px #b266ff, 0 0 24px #b266ff;
+  }
+  100% {
+    text-shadow: 0 0 2px #cc66ff, 0 0 10px #cc66ff, 0 0 20px #cc66ff;
+  }
+}
+
+/* Estilo MENU flutuante */
+.tema-selector {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tema-selector button {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.theme-controls {
+  position: relative;
+  display: inline-block;
+}
+
+.config-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #888;
+  padding-right: 2rem;
+  transition: color 0.2s ease;
+}
+
+.config-button:hover {
+  color: #00bfff;
+}
+
+.config-button i {
+  display: block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.config-button i.active-menu {
+  color: #00bfff;
+  transform: rotate(25deg);
+}
+
+.color-menu {
+  position: absolute;
+  top: 150%;
+  right: 97%;
+  background: #222222de;
+  padding: 10px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.color-circle {
+  width: 16px;
+  height: 25px;
+  margin-right: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(94, 94, 94);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+.color-circle.cyanGreen { background-color: #00ffc8; }
+.color-circle.colorPink  { background-color: #ff4dff; }
+.color-circle.colorBlue  { background-color: #1e90ff; }
+.color-circle.colorPurple  { background-color: #cc66ff; }
