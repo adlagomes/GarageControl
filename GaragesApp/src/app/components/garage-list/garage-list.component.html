@@ -1,54 +1,63 @@
 <h2 class="title page-properties">Propriedades</h2>
 
 <!-- <div class="top-bar"> -->
-  <div class="filters-section" [formGroup]="filterForm">
-    <input type="text" formControlName="searchQuery" placeholder="Pesquisar por nome ou localização">
-    
-    <select formControlName="type">
-      <option value="">Todos os Tipos</option>
-      <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
-    </select>
+<div class="filters-section" [formGroup]="filterForm">
+  <input type="text" formControlName="searchQuery" placeholder="Pesquisar por nome ou localização">
+  
+  <select formControlName="type">
+    <option value="">Todos os Tipos</option>
+    <option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</option>
+  </select>
 
-    <select formControlName="orderBy">
-      <option value="" disabled>Ordenar por</option>
-      <option value="nameAsc">A-Z</option>
-      <option value="nameDesc">Z-A</option>
-      <option value="capacityAsc">Menor capacidade</option>
-      <option value="capacityDesc">Maior capacidade</option>
-      <option value="vehicleCountAsc">Menos veículos alocados</option>
-      <option value="vehicleCountDesc">Mais veículos alocados</option>
-      <option value="availableSlotsAsc">Menos vagas disponíveis</option>
-      <option value="availableSlotsDesc">Mais vagas disponíveis</option>
-    </select>
-  </div>
+  <select formControlName="orderBy">
+    <option value="" disabled>Ordenar por</option>
+    <option value="nameAsc">A-Z</option>
+    <option value="nameDesc">Z-A</option>
+    <option value="capacityAsc">Menor capacidade</option>
+    <option value="capacityDesc">Maior capacidade</option>
+    <option value="vehicleCountAsc">Menos veículos alocados</option>
+    <option value="vehicleCountDesc">Mais veículos alocados</option>
+    <option value="availableSlotsAsc">Menos vagas disponíveis</option>
+    <option value="availableSlotsDesc">Mais vagas disponíveis</option>
+  </select>
+</div>
 
-  <!-- <div class="add-button-wrapper" style="margin-top: 20px;">
-    <a class="add-button" routerLink="/garages/add">Adicionar Nova Garagem</a>
-  </div> -->
-<!-- </div> -->
-
-<p *ngIf="garages.length === 0">Nenhuma garagem cadastrada. <a style="color: deepskyblue;" routerLink="/garages/add">Adicionar uma agora!</a></p>
+<p class="empty-state-message" *ngIf="garages.length === 0">Nenhuma propriedade cadastrada.
+  <a routerLink="/garages/add">Adicionar uma agora!</a>
+</p>
 
 <div *ngIf="garages.length > 0">
-  <div class="garage-grid">
-    <div *ngFor="let garage of garages" class="garage-card" [routerLink]="['/garages', garage.id, 'vehicles']">
-      <p class="garage-type">{{ garage.type }}</p>
-      
-      <div class="property-image" *ngIf="garage.imageUrl">
-        <img [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade">
+  <div class="card-grid">
+    <div class="app-card property"  *ngFor="let garage of garages" [routerLink]="['/garages', garage.id, 'vehicles']">
+      <div class="card-type">
+        <p>{{ garage.type }}</p>
       </div>
-      <div *ngIf="!garage.imageUrl">
-        <p>Insira uma imagem</p>
+      
+      <div class="card-image-container" *ngIf="garage.imageUrl">
+        <img class="card-image" [src]="getBaseUrl() + garage.imageUrl" alt="Imagem da Propriedade">
+      </div>
+      <div class="card-image-container" *ngIf="!garage.imageUrl">
+        <p>Sem imagem :&#40;</p>
       </div>
 
-      <h3>{{ garage.name }}</h3>
-      <p>Localização: {{ garage.location }}</p>
-      <p>Estado/Área: {{ garage.stateArea }}</p>
-      <p><i class="fa-solid fa-warehouse"></i> {{ garage.capacity }} veículos</p>
-      <p *ngIf="garage.vehicles && garage.vehicles.length"><i class="fa-solid fa-car"></i> {{ garage.vehicles.length || 0 }}</p>
-      <div class="button-group">
-        <button class="button-edit" (click)="editGarage(garage.id)" title="Editar Propriedade"><i class="fa-solid fa-pencil"></i></button>
-        <button class="button-delete" (click)="deleteGarage(garage.id)" title="Excluir Propriedade"><i class="fa-regular fa-trash-can"></i></button>
+      <div class="card-content">
+        <h3 class="card-title">{{ garage.name }}</h3>
+        <hr class="card-divider">
+
+        <div class="card-details">
+          <p><strong>Localização:</strong> {{ garage.location }}</p>
+          <p><strong>Estado/Área:</strong> {{ garage.stateArea }}</p>
+        </div>
+
+        <div class="card-icons">
+          <p><i class="fa-solid fa-warehouse"></i> {{ garage.capacity }} {{ garage.capacity === 1 ? 'vaga' : 'vagas' }}</p>
+          <p *ngIf="garage.vehicles && garage.vehicles.length"><i class="fa-solid fa-car"></i> {{ garage.vehicles.length || 0 }}</p>
+        </div>
+
+        <div class="button-group">
+          <button class="button-edit" (click)="editGarage(garage.id)" title="Editar Propriedade"><i class="fa-solid fa-pencil"></i></button>
+          <button class="button-delete" (click)="deleteGarage(garage.id)" title="Excluir Propriedade"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
       </div>
     </div>
   </div>

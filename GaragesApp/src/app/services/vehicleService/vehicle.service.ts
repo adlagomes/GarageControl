@@ -86,14 +86,15 @@ export class VehicleService {
   }
 
   // **NOVOS MÉTODOS QUE ACEITAM FormData**
-  addVehicleWithFile(formData: FormData): Observable<any> {
+  addVehicleWithFile(formData: FormData): Observable<Vehicle> {
     // Opcionalidade: se FormData não tiver 'ImageFile', o backend o verá como null.
-    return this.http.post(this.apiUrl, formData);
+    return this.http.post<Vehicle>(this.apiUrl, formData);
   }
 
   updateVehicleWithFile(id: number, formData: FormData): Observable<any> {
+    const url = `${this.apiUrl}/${id}`
     // Opcionalidade: se FormData não tiver 'ImageFile', o backend o verá como null.
-    return this.http.put(`${this.apiUrl}/${id}`, formData);
+    return this.http.put(url, formData);
   }
 
   // DELETE: Excluir um veículo

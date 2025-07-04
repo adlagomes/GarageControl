@@ -25,7 +25,7 @@ export class GarageListComponent implements OnInit {
   pageSizes: number[] = [5, 10, 20, 50]
   filterForm!: FormGroup;
   propertyTypes: string[] = []; // Para popular o dropdown de filtro de tipo
-
+  
   constructor(
     private garageService: GarageService,
     private router: Router,
@@ -98,9 +98,9 @@ export class GarageListComponent implements OnInit {
 
   // novo para testar componente de navegação
   onPageSizeChange(newPageSize: number): void {
-  this.pageSize = newPageSize;
-  this.currentPage = 1;
-  this.loadGarages();
+    this.pageSize = newPageSize;
+    this.currentPage = 1;
+    this.loadGarages();
 }
 
   editGarage(id: number | undefined): void {

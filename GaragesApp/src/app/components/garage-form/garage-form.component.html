@@ -1,40 +1,40 @@
 
-<form [formGroup]="garageForm" (ngSubmit)="onSubmit()">
+<form class="form-container" [formGroup]="garageForm" (ngSubmit)="onSubmit()">
   <h2 class="subtitle">{{ isEditMode ? 'Editar Propriedade' : 'Adicionar Nova Propriedade' }}</h2>
-  <input type="hidden" formControlName="id">
+  <input class="form-input" type="hidden" formControlName="id">
 
   <div>
-    <label for="type">Tipo de Propriedade:</label>
-    <select id="type" formControlName="type">
+    <label class="form-label" for="type">Tipo de Propriedade:</label>
+    <select class="form-select" id="type" formControlName="type">
       <option [ngValue]="''" disabled>Selecione um Tipo</option>
       <option *ngFor="let propertyType of propertyTypes" [ngValue]="propertyType">{{ propertyType }}</option>
     </select>
-    <div *ngIf="isFieldInvalid('type')" class="error-message">
+    <div class="error-message" *ngIf="isFieldInvalid('type')">
       <span *ngIf="garageForm.get('type')?.errors?.['required']">O tipo da propriedade é obrigatório.</span>
     </div>
   </div>
 
   <div>
-    <label for="name">Nome:</label>
-    <input type="text" id="name" formControlName="name">
-    <div *ngIf="isFieldInvalid('name')" class="error-message">
+    <label class="form-label" for="name">Nome:</label>
+    <input class="form-input" type="text" id="name" formControlName="name">
+    <div  class="error-message" *ngIf="isFieldInvalid('name')">
       <span *ngIf="garageForm.get('name')?.errors?.['required']">O nome da propriedade é obrigatório.</span>
       <span *ngIf="garageForm.get('name')?.errors?.['maxlength']">O nome da propriedade não pode exceder 100 caracteres.</span>
     </div>
   </div>
 
   <div>
-    <label for="location">Localização</label>
-    <input type="text" id="location" formControlName="location">
-    <div *ngIf="isFieldInvalid('location')" class="error-message">
+    <label class="form-label" for="location">Localização</label>
+    <input class="form-input" type="text" id="location" formControlName="location">
+    <div class="error-message" *ngIf="isFieldInvalid('location')">
       <span *ngIf="garageForm.get('location')?.errors?.['required']">A localização da propriedade é obrigatória.</span>
       <span *ngIf="garageForm.get('location')?.errors?.['maxlength']">A localização da propriedade não pode exceder 200 caracteres.</span>
     </div>
 
     <div>
-      <label for="stateArea">Estado/Área:</label>
-      <input type="text" id="stateArea" formControlName="stateArea">
-      <div *ngIf="isFieldInvalid('stateArea')" class="error-message">
+      <label class="form-label" for="stateArea">Estado/Área:</label>
+      <input class="form-input" type="text" id="stateArea" formControlName="stateArea">
+      <div class="error-message" *ngIf="isFieldInvalid('stateArea')">
         <span *ngIf="garageForm.get('stateArea')?.errors?.['required']">O Estado/Área da propriedade é obrigatório.</span>
         <span *ngIf="garageForm.get('stateArea')?.errors?.['maxlength']">O Estado/Área não pode exceder 100 caracteres.</span>
       </div>
@@ -42,9 +42,9 @@
   </div>
 
   <div>
-    <label for="capacity">Capacidade:</label>
-    <input type="number" id="capacity"formControlName="capacity">
-    <div *ngIf="isFieldInvalid('capacity')" class="error-message">
+    <label class="form-label" for="capacity">Capacidade:</label>
+    <input class="form-input" type="number" id="capacity"formControlName="capacity">
+    <div class="error-message" *ngIf="isFieldInvalid('capacity')">
       <span *ngIf="isFieldInvalid('capacity')" class="error-message">
         <span *ngIf="garageForm.get('capacity')?.errors?.['required']">A capacidade da propriedade é obrigatória.</span>
         <span *ngIf="garageForm.get('capacity')?.errors?.['min']">A capacidade deve ser pelo menos 1.</span>
@@ -53,14 +53,14 @@
     </div>
   </div>
 
-  <div>
-    <label for="imageFile">Imagem da Propriedade (Opcional):</label>
-    <input type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)">
-    <div *ngIf="imageFileError" class="error-message">
+  <div >
+    <label class="form-label" for="imageFile">Imagem da Propriedade (Opcional):</label>
+    <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)">
+    <div class="error-message" *ngIf="imageFileError">
       <span>{{ imageFileError }}</span>
     </div>
     
-    <div *ngIf="currentImagePreview">
+    <div class="form-image-preview" *ngIf="currentImagePreview">
       <img
       [src]="currentImagePreview"
       alt="Pré-visualização da imagem da propriedade"
@@ -71,20 +71,20 @@
     </div>
     <div *ngIf="isEditMode && !selectedFile && originalImageUrl && !garageForm.get('removeExistingImage')?.value">
       <p>Imagem existente:</p>
-      <img [src]="getBaseUrl() + originalImageUrl" alt="Imagem atual da propriedade." style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+      <img [src]="getBaseUrl() + originalImageUrl" alt="Imagem atual da propriedade.">
     </div>
 
     <div *ngIf="isEditMode && originalImageUrl">
-      <input type="checkbox" id="removeExistingImage" formControlName="removeExistingImage">
-      <label for="removeExistingImage">Remover imagem existente</label>
+      <input class="form-input" type="checkbox" id="removeExistingImage" formControlName="removeExistingImage">
+      <label class="form-label" for="removeExistingImage">Remover imagem existente</label>
     </div>
 
-    <button type="button" (click)="removeImage()" style="margin-left: 10px;">Remover Imagem</button>
-    <div *ngIf="imageFileError" class="error-message">
+    <button type="button" (click)="removeImage()">Remover Imagem</button>
+    <div class="error-message" *ngIf="imageFileError">
       <span>{{ imageFileError }}</span>
     </div>
   </div>
 
   <button type="submit">{{ isEditMode ? 'Salvar Alterações' : 'Adicionar Propriedade' }}</button>
-  <button type="button" (click)="router.navigate(['/garages'])" class="cancel-button">Cancelar</button>
+  <button class="cancel-button" type="button" (click)="router.navigate(['/garages'])">Cancelar</button>
 </form>

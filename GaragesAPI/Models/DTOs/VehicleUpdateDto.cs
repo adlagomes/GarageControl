@@ -20,7 +20,7 @@ namespace GaragesAPI.Models.DTOs
         public int? SeatingCapacity { get; set; }
 
         [Url(ErrorMessage = "A URL da imagem não é válida.")]
-        public string? CarImage { get; set; }
+        public string? ImageUrl { get; set; }
 
         [StringLength(500, ErrorMessage = "As notas não podem exceder 500 caracteres.")]
         public string? Notes { get; set; }
@@ -28,6 +28,6 @@ namespace GaragesAPI.Models.DTOs
         [Required(ErrorMessage = "A garagem é obrigatória.")]
         [Range(1, int.MaxValue, ErrorMessage = "Selecione uma garagem válida.")]
         public int GarageId { get; set; }
-        public IFormFile? ImageFile { get; internal set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }

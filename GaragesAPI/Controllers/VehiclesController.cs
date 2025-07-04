@@ -188,6 +188,8 @@ namespace GaragesAPI.Controllers
                 return NotFound();
 
             // Se um novo arquivo de imagem foi enviado
+            _mapper.Map(vehicleUpdateDto, vehicle); // Mapeia DTO para a entidade existente
+
             if (vehicleUpdateDto.ImageFile != null)
             {
                 // Excluir a imagem antiga
@@ -200,7 +202,7 @@ namespace GaragesAPI.Controllers
             {
                 if (!string.IsNullOrEmpty(vehicle.ImageUrl))
                         DeleteImage(vehicle.ImageUrl);
-              
+
                 vehicle.ImageUrl = null;
             }
 
