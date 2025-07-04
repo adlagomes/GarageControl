@@ -204,7 +204,6 @@ namespace GaragesAPI.Controllers
                 vehicle.ImageUrl = null;
             }
 
-            _mapper.Map(vehicleUpdateDto, vehicle); // Mapeia DTO para a entidade existente
             _context.Entry(vehicle).State = EntityState.Modified;
 
             /* COMENTADO POR REFATORAÇÃO. VERIFICAR SE NÃO OCORRE ERRO
