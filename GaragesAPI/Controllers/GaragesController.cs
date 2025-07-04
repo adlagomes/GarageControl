@@ -169,50 +169,33 @@ namespace GaragesAPI.Controllers
                 return BadRequest("O ID da rota não corresponde ao ID no corpo da requisição.");
 
             // Busca a entidade existente do banco de dados
-            var existingGarage = await _context.Garages
-                .AsNoTracking()
-                .FirstOrDefaultAsync(g => g.Id == id);
-
-            if (existingGarage == null)
+            var garage = await _context.Garages.FindAsync(id);
+            if (garage == null)
                 return NotFound();
 
-            var garageToUpdate = _mapper.Map<Garage>(garageCreateUpdateDto);
-            garageCreateUpdateDto.Id = id;
+            //var garageToUpdate = _mapper.Map<Garage>(garageCreateUpdateDto);
+            //garageCreateUpdateDto.Id = id;
 
             if (garageCreateUpdateDto.ImageFile != null)
             {
-                if (!string.IsNullOrEmpty(existingGarage.ImageUrl))
+                if (!string.IsNullOrEmpty(garage.ImageUrl))
                 {
-                    DeleteImage(existingGarage.ImageUrl);
+                    DeleteImage(garage.ImageUrl);
                 }
-                garageToUpdate.ImageUrl = await SaveImage(garageCreateUpdateDto.ImageFile);
+                garage.ImageUrl = await SaveImage(garageCreateUpdateDto.ImageFile);
             }
-            else
-            {
-                if (garageCreateUpdateDto.RemoveExistingImage)
+            else  if (garageCreateUpdateDto.RemoveExistingImage)
                 {
-                    if (!string.IsNullOrEmpty(existingGarage.ImageUrl))
-                    {
-                        DeleteImage(existingGarage.ImageUrl);
-                    }
-                    garageToUpdate.ImageUrl = null;
-                }
-                else
-                {
-                    garageToUpdate.ImageUrl = existingGarage.ImageUrl;
-                }
-            }
+                    if (!string.IsNullOrEmpty(garage.ImageUrl))
+                        DeleteImage(garage.ImageUrl);
 
-            //garage.Type = garageUpdateDto.Type;
-            //garage.Name = garageUpdateDto.Name;
-            //garage.Location = garageUpdateDto.Location;
-            //garage.StateArea = garageUpdateDto.StateArea;
-            //garage.Capacity = garageUpdateDto.Capacity;
+                    garage.ImageUrl = null;
+                }
 
             // Mapeia os dados do DTO para a entidade existente
-            _mapper.Map(garageCreateUpdateDto, existingGarage); // Atualiza a entidade 'garage' com os valores de 'garageDto'
+            _mapper.Map(garageCreateUpdateDto, garage); // Atualiza a entidade 'garage' com os valores de 'garageDto'
 
-            _context.Entry(garageToUpdate).State = EntityState.Modified;
+            //_context.Entry(garageToUpdate).State = EntityState.Modified;
 
             try
             {
@@ -223,8 +206,7 @@ namespace GaragesAPI.Controllers
                 if (!GarageExists(id))
                     return NotFound();
 
-                else
-                    throw;
+                throw;
             }
 
             return NoContent();
@@ -280,12 +262,6 @@ namespace GaragesAPI.Controllers
 
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
             var filePath = Path.Combine(uploadsFolder, fileName);
-
-            //string? fileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
-            //string extension = Path.GetExtension(imageFile.FileName);
-            // Garante nome único para o arquivo
-            //string newFileName = fileName + DateTime.Now.ToString("yymmddhhmmssfff") + extension;
-            //string path = Path.Combine(imagesPath, newFileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
