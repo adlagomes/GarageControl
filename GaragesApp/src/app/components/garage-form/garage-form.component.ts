@@ -101,6 +101,7 @@ export class GarageFormComponent implements OnInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.imageFileError = null; // Reseta o erro de arquivo de imagem
@@ -129,8 +130,14 @@ export class GarageFormComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         this.currentImagePreview = reader.result as string; // Define a pré-visualização da imagem
+
+        const uploadButton = document.querySelector('.add-photo-button') as HTMLElement;
+        if (uploadButton) {
+          uploadButton.style.background = `url(${this.currentImagePreview})`;
+        }
       };
       reader.readAsDataURL(file); // Lê o arquivo como URL de dados
+      
     } else {
       this.selectedFile = null;
       if (!this.isEditMode || (this.isEditMode && !this.garageForm.get('imageUrl')?.value)) {
@@ -146,6 +153,11 @@ export class GarageFormComponent implements OnInit {
 
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.value = '';
+    }
+
+    const uploadButton = document.querySelector('.add-photo-button') as HTMLElement;
+    if (uploadButton) {
+      uploadButton.style.background = '';
     }
   }
 

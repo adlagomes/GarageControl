@@ -40,40 +40,32 @@
     </div>
   </div>
 
-  <div class="form-row-two-columns">
-    <div class="form-group  capacity">
-      <label class="form-label" for="capacity">Capacidade:</label>
-      <input class="form-input" type="number" id="capacity"formControlName="capacity">
-      <div class="error-message" *ngIf="isFieldInvalid('capacity')">
-        <span *ngIf="garageForm.get('capacity')?.errors?.['required']">A capacidade da propriedade é obrigatória.</span>
-        <span *ngIf="garageForm.get('capacity')?.errors?.['min']">A capacidade deve ser pelo menos 1.</span>
-        <span *ngIf="garageForm.get('capacity')?.errors?.['max']">A capacidade não pode exceder 1000.</span>
-      </div>
-    </div>
-
-    <div class="form-group image-upload-group">
-      <label class="form-label add-photo-button" for="imageFile">
-        <i class="fa-solid fa-camera-retro"></i>
-      </label>
-      <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)" #fileInput>
-      <div class="error-message" *ngIf="imageFileError">
-        <span>{{ imageFileError }}</span>
-      </div>
+  <div class="form-group  capacity">
+    <label class="form-label" for="capacity">Capacidade:</label>
+    <input class="form-input" type="number" id="capacity"formControlName="capacity">
+    <div class="error-message" *ngIf="isFieldInvalid('capacity')">
+      <span *ngIf="garageForm.get('capacity')?.errors?.['required']">A capacidade da propriedade é obrigatória.</span>
+      <span *ngIf="garageForm.get('capacity')?.errors?.['min']">A capacidade deve ser pelo menos 1.</span>
+      <span *ngIf="garageForm.get('capacity')?.errors?.['max']">A capacidade não pode exceder 1000.</span>
     </div>
   </div>
-    
-  <div class="form-image-previews-and-actions">
-    <div class="form-image-preview" *ngIf="currentImagePreview || (isEditMode && originalImageUrl) && !garageForm.get('removeExistingImage')?.value">
-      <img [src]="currentImagePreview || (getBaseUrl() + originalImageUrl)" alt="Imagem da propriedade">
-      <button type="button" class="form-button form-button-remove-image" (click)="removeImage()" title="Remover imagem" >
-        <i class="fa-solid fa-trash-can"></i> Excluir
-      </button>
-    </div>
 
+  <div class="form-group form-image-upload-wrapper">
+    <label class="form-label add-photo-button" for="imageFile"
+      [ngClass]="{ 'has-image': currentImagePreview }"
+      [style.background-image]="currentImagePreview ? 'url(' + currentImagePreview + ')' : ''">
+      <i class="fa-solid fa-camera-retro"></i>
+      <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)" #fileInput>
+    </label>
+    <button type="button" class="form-button form-button-remove-image" (click)="removeImage()" title="Remover imagem" >
+      <i class="fa-solid fa-trash-can"></i> Excluir
+    </button>
+  </div>
+    
+  <div class="form-image-error-message">
     <div class="error-message" *ngIf="imageFileError">
       <span>{{ imageFileError }}</span>
     </div>
-
   </div>
 
   <div class="form-actions">
