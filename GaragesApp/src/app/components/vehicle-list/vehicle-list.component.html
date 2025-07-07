@@ -20,7 +20,7 @@
     <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
   </select>
 
-  <div>
+  <!-- <div>
     <label for="minTopSpeed">Vel. Mín: </label>
     <input type="number" id="minTopSpeed" formControlName="minTopSpeed" placeholder="Mín." />
   </div>
@@ -36,12 +36,12 @@
   <div>
     <label for="maxSeatingCapacity">Capacidade de Assentos (Máx):</label>
     <input type="number" id="maxSeatingCapacity" formControlName="maxSeatingCapacity" placeholder="Máx." />
-  </div>
+  </div> -->
 
   <div class="sort-controls">
-    <label for="sortBy">Ordenar por:</label>
+    <!-- <label for="sortBy">Ordenar por:</label> -->
     <select id="sortBy" formControlName="sortBy">
-      <option value="id">ID</option>
+      <option value="id">Ordenar por ID</option>
       <option value="name">Nome</option>
       <option value="type">Tipo</option>
       <option value="manufacturer">Fabricante</option>
@@ -50,9 +50,9 @@
       <option value="seatingcapacity">Capacidade de Assentos</option>
     </select>
     <button type="button" (click)="toggleSortDirection()">
-      {{ filterForm.get('sortDirection')?.value === 'asc' ? 'Ordem Ascendente' : 'Ordem Descendente' }}
-      <span *ngIf="filterForm.get('sortDirection')?.value === 'asc'">⬆️</span>
-      <span *ngIf="filterForm.get('sortDirection')?.value === 'desc'">⬇️</span>
+      {{ filterForm.get('sortDirection')?.value === 'asc' ? '' : '' }}
+      <span *ngIf="filterForm.get('sortDirection')?.value === 'asc'"><i class="fa-solid fa-arrow-up"></i></span>
+      <span *ngIf="filterForm.get('sortDirection')?.value === 'desc'"><i class="fa-solid fa-arrow-down"></i></span>
     </button>
   </div>
 </div>
@@ -77,13 +77,15 @@
       </div>
 
       <div class="card-content">
-
         <div class="card-details">
           <p>{{ vehicle.type }}</p>
           <p>{{ vehicle.manufacturer }}</p>
           <p>{{ vehicle.category }}</p>
           <p *ngIf="vehicle.garage">Garagem: {{ vehicle.garage.name }}</p>
-          <p *ngIf="vehicle.notes">Notas: {{ vehicle.notes }}</p>
+          <div class="card-notes">
+            <span>Notas:</span>
+            <p *ngIf="vehicle.notes">{{ vehicle.notes }}</p>
+          </div>
         </div>
 
         <div class="card-icons">

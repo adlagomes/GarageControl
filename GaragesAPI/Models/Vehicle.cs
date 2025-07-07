@@ -6,21 +6,15 @@ namespace GaragesAPI.Models
     {
         public int Id { get; set; }
 
-        public string Type { get; set; } = string.Empty; // Ex: "Carro", "Moto", "Caminhão" etc
-        public string? Manufacturer { get; set; }
-        public string? Category { get; set; }
-
-        [Required]
-        public string Name { get; set; } = string.Empty; // Ex: ""Comet Retro Custom"
+        [Required] public string Type { get; set; } = string.Empty;
+        [Required] public string Manufacturer { get; set; } = string.Empty;
+        [Required] public string Category { get; set; } = string.Empty;
+        [Required] public string Name { get; set; } = string.Empty;
+        [Required] public int SeatingCapacity { get; set; }
         public double? TopSpeed { get; set; }
-        public int? SeatingCapacity { get; set; }
-
-        public string? ImageUrl { get; set; } // URL para imagem, pode ser nulo
-
-        public string? Notes {  get; set; } // Anotações adicionais.
-
-        [Required]
-        public int GarageId { get; set; }
-        public Garage? Garage {  get; set; } // Propriedade de navegação
+        public string? ImageUrl { get; set; }
+        public string? Notes {  get; set; }
+        public int? GarageId { get; set; }
+        public Garage? Garage {  get; set; }
     }
 }

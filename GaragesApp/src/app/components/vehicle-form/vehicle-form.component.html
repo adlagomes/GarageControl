@@ -3,36 +3,50 @@
   <input class="form-input" type="hidden" formControlName="id">
 
   <div class="form-group">
-    <label class="form-label" for="garage">Garagem:</label>
+    <label class="form-label" for="garage">Propriedade:</label>
     <select class="form-select" id="garage" formControlName="garageId">
-      <option [ngValue]="0" disabled>Selecione uma Garagem</option>
+      <option [ngValue]="0" disabled>Selecione uma Propriedade</option>
       <option *ngFor="let garage of garages" [ngValue]="garage.id">
         {{ garage.name }} (Capacidade: {{ garage.capacity }})
       </option>
     </select>
     <div class="error-message" *ngIf="isFieldInvalid('garageId')">
-      <span *ngIf="vehicleForm.get('garageId')?.errors?.['required'] || vehicleForm.get('garageId')?.errors?.['min']">Selecione uma garagem válida.</span>
+      <span *ngIf="vehicleForm.get('garageId')?.errors?.['required'] || vehicleForm.get('garageId')?.errors?.['min']">Selecione uma propriedade válida.</span>
     </div>
-    <p *ngIf="garages.length === 0" style="color: red;">Nenhuma garagem disponível. Por favor, adicione uma garagem primeiro.</p>
+    <p *ngIf="garages.length === 0" style="color: red;">Nenhuma propriedade disponível. Por favor, adicione uma propriedade com garagem primeiro.</p>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="type">Tipo (Carro, Moto, Caminhão, etc.):</label>
-    <input class="form-input" type="text" id="type" formControlName="type">
-    <div class="error-message" *ngIf="isFieldInvalid('type')">
-      <span *ngIf="vehicleForm.get('type')?.errors?.['required']">Tipo de veículo é obrigatório.</span>
-      <span *ngIf="vehicleForm.get('type')?.errors?.['maxlength']">Tipo não pode exceder 50 caracteres.</span>
-    </div>
+    <label class="form-label" for="type">Tipo de veículo:</label>
+    <select class="form-select" id="type" formControlName="type">
+        <option [ngValue]="0" disabled>Selecione um Tipo</option>
+        <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
+      </select>
+      <div class="error-message" *ngIf="isFieldInvalid('type')">
+        <span *ngIf="vehicleForm.get('type')?.errors?.['required']">O tipo do veículo é obrigatório.</span>
+      </div>
   </div>
 
   <div class="form-group">
     <label class="form-label" for="manufacturer">Fabricante:</label>
-    <input class="form-input" type="text" id="manufacturer" formControlName="manufacturer">
+    <select class="form-select" id="manufacturer" formControlName="manufacturer">
+      <option [ngValue]="0" disabled>Selecione um Fabricante</option>
+      <option *ngFor="let manufacturer of manufacturers" [value]="manufacturer">{{ manufacturer }}</option>
+    </select>
+    <div class="error-message" *ngIf="isFieldInvalid('manufacturer')">
+      <span *ngIf="vehicleForm.get('manufacturer')?.errors?.['required']">O fabricante é obrigatório.</span>
+    </div>
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="category">Categoria / Classe</label>
-    <input class="form-input" type="text" id="category" formControlName="category">
+    <label class="form-label" for="category">Categoria / Classe:</label>
+    <select class="form-select" id="category" formControlName="category">
+        <option [ngValue]="0" disabled>Selecione uma Categoria</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+      <div class="error-message" *ngIf="isFieldInvalid('category')">
+        <span *ngIf="vehicleForm.get('category')?.errors?.['required']">A categoria é obrigatória.</span>
+      </div>
   </div>
 
   <div class="form-group">
@@ -45,38 +59,50 @@
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="topSpeed">Velocidade Máxima / Classe</label>
+    <label class="form-label" for="topSpeed">Velocidade Máxima (Opcional):</label>
     <input class="form-input" type="text" id="topSpeed" formControlName="topSpeed">
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="seatingCapacity">Quantidade de Assentos</label>
+    <label class="form-label" for="seatingCapacity">Quantidade de Assentos (Opcional:)</label>
     <input class="form-input" type="text" id="seatingCapacity" formControlName="seatingCapacity">
   </div>
 
   <div class="form-group">
     <label class="form-label" for="notes">Notas (Opcional):</label>
-    <textarea id="notes" formControlName="notes"></textarea>
+    <textarea class="form-input" id="notes" formControlName="notes"></textarea>
     <div class="error-message" *ngIf="isFieldInvalid('notes')">
-      <span *ngIf="vehicleForm.get('notes')?.errors?.['maxlength']">Notas não podem exceder 500 caracteres.</span>
+      <span *ngIf="vehicleForm.get('notes')?.errors?.['maxlength']">Notas não podem exceder 140 caracteres.</span>
     </div>
   </div>
 
   <div class="form-group form-image-upload-wrapper">
-    <label class="form-label" for="carImage">Imagem do Veículo (Opcional):</label>
-    <input type="file" id="carImage" accept="image/*" (change)="onFileSelected($event)">
+    <label class="form-label add-photo-button" for="imageFile"
+      [ngClass]="{ 'has-image': currentCarImagePreview }"
+      [style.background-image]="currentCarImagePreview ? 'url(' + currentCarImagePreview + ')' : ''">
+    <i class="fa-solid fa-camera-retro"></i>
+    <input class="form-file" type="file" id="imageFile" accept="image/*" (change)="onFileSelected($event)" #fileInput>
+    </label>
+    <button
+      type="button"
+      class="form-button form-button-remove-image"
+      (click)="removeImage()"
+      title="Excluir imagem"
+      >
+    <i class="fa-solid fa-trash-can"></i> Excluir
+    </button>
+  </div>
 
-    <div *ngIf="currentCarImagePreview">
-      <img [src]="currentCarImagePreview" alt="Pré-visualização da Imagem" style="max-width: 200px; max-height: 200px; margin-top: 10px; border-radius: 4px;">
-    </div>
-
-    <div class="form-image-error-message" *ngIf="imageFileError">
+  <div class="form-image-error-message" *ngIf="imageFileError">
+    <div class="error-message">
       <span>{{ imageFileError }}</span>
     </div>
   </div>
 
   <div class="form-actions">
-    <button class="form-button primary" type="submit" [disabled]="garages.length === 0 && !isEditMode">Salvar</button>
+    <button class="form-button primary" type="submit" [disabled]="garages.length === 0 && !isEditMode">
+      {{ isEditMode ? 'Salvar Alterações' : 'Adicionar Veículo' }}
+    </button>
     <button class="form-button cancel-button" type="button" (click)="router.navigate(['/vehicles'])">Cancelar</button>
   </div>
 </form>

@@ -59,6 +59,7 @@ body.dark-mode {
   background-color: var(--form-input-bg);
   color: var(--form-input-text);
   transition: border-color 0.3s, box-shadow 0.3s;
+  resize: none;
 }
 
 .form-input:focus,
@@ -123,8 +124,9 @@ body.dark-mode {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 .add-photo-button {
@@ -201,4 +203,27 @@ body.dark-mode .add-photo-button i {
 .form-button-remove-image:hover {
   background-color: #d9534f;
   color: #ffffff;
+}
+
+.sort-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.sort-controls button {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.sort-controls button:hover {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  transition: border 0.3s ease;
+}
+
+.sort-controls button i {
+  color: var(--form-button-bg);
+  text-shadow: 0 0 3px var(--form-button-bg);
+  font-size: 1.2rem;
 }

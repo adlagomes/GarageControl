@@ -22,12 +22,10 @@ namespace GaragesAPI.Models.DTOs
         [Url(ErrorMessage = "A URL da imagem não é válida.")]
         public string? ImageUrl { get; set; }
 
-        [StringLength(500, ErrorMessage = "As notas não podem exceder 500 caracteres.")]
+        [StringLength(140, ErrorMessage = "As notas não podem exceder 140 caracteres.")]
         public string? Notes { get; set; }
 
-        [Required(ErrorMessage = "A garagem é obrigatória.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Selecione uma garagem válida.")]
-        public int GarageId { get; set; }
+        public int? GarageId { get; set; }
         public IFormFile? ImageFile { get; set; }
     }
 }

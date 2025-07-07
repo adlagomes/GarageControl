@@ -6,7 +6,7 @@ import { GarageService, PagedGaragesResponse, PaginationMetadata, GarageQueryPar
 import { FormsModule } from '@angular/forms';
 import { Garage } from '../../models/garage.model'; // Importe a interface Garage
 import { NotificationService } from '../../services/notification.service';
-import { PropertyTypeService } from '../../services/property-type.service';
+import { PropertyTypeService } from '../../services/garageService/property-type.service';
 import { Pagination } from "../shared/pagination/pagination"; // Importe o novo serviço
 
 

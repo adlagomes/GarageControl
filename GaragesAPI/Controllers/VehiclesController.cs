@@ -156,8 +156,11 @@ namespace GaragesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<VehicleDto>> AddVehicle([FromForm] VehicleCreateDto vehicleCreateDto)
         {
-            if (!await _context.Garages.AnyAsync(g => g.Id == vehicleCreateDto.GarageId))
-                return BadRequest($"Garagem com ID {vehicleCreateDto.GarageId} não encontrada.");
+            if (vehicleCreateDto.GarageId.HasValue)
+            {
+                if (!await _context.Garages.AnyAsync(g => g.Id == vehicleCreateDto.GarageId))
+                    return BadRequest($"Garagem com ID {vehicleCreateDto.GarageId} não encontrada.");
+            }
 
             var vehicle = _mapper.Map<Vehicle>(vehicleCreateDto);
 
@@ -207,13 +210,6 @@ namespace GaragesAPI.Controllers
             }
 
             _context.Entry(vehicle).State = EntityState.Modified;
-
-            /* COMENTADO POR REFATORAÇÃO. VERIFICAR SE NÃO OCORRE ERRO
-            vehicle.Type = vehicleUpdateDto.Type;
-            vehicle.Name = vehicleUpdateDto.Name;
-            vehicle.Notes = vehicleUpdateDto.Notes;
-            vehicle.GarageId = vehicleUpdateDto.GarageId;
-            */
 
             try
             {

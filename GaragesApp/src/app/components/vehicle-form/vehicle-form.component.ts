@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Para usar ngModel
@@ -7,6 +7,7 @@ import { Garage } from '../../models/garage.model';
 import { GarageService } from '../../services/garageService/garage.service';
 import { VehicleService } from '../../services/vehicleService/vehicle.service';
 import { NotificationService } from '../../services/notification.service';
+import { VehicleTypeService } from '../../services/vehicleService/vehicle-type.service';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -23,6 +24,13 @@ export class VehicleFormComponent implements OnInit {
   selectedFile: File | null = null; // Variável para armazenar o arquivo selecionado
   currentCarImagePreview: string | null = null; // Variável para armazenar a pré-visualização da imagem do carro
   imageFileError: string | null = null; // Variável para armazenar erros de validação de imagem
+  originalImageUrl: string | null = null;
+
+  vehicleTypes: string[] = [];
+  manufacturers: string[] = [];
+  categories: string[] = [];
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private fb: FormBuilder,
@@ -30,20 +38,32 @@ export class VehicleFormComponent implements OnInit {
     private garageService: GarageService,
     private route: ActivatedRoute,
     public router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private vehicleTypeService: VehicleTypeService
   ) { }
 
   ngOnInit(): void {
     this.vehicleForm = this.fb.group({
       id: [0], // ID do veículo, usado apenas no modo de edição
-      type: ['', [Validators.required, Validators.maxLength(50)]], // Tipo do veículo
-      manufacturer: [''],
+      type: ['', [Validators.required]], // Tipo do veículo
       name: ['', [Validators.required, Validators.maxLength(100)]], // Nome do veículo
-      category: [''],
+      manufacturer: ['', [Validators.required]],
+      category: ['', [Validators.required]],
       topSpeed: [null],
-      seatingCapacity: [null],
-      notes: ['', [Validators.maxLength(500)]], // Notas adicionais do veículo
-      garageId: [0, [Validators.required, Validators.min(1)]] // Garagem é obrigatória e deve ter ID > 0
+      seatingCapacity: [null, [Validators.required]],
+      garageId: [0, [Validators.required, Validators.min(1)]], // Garagem é obrigatória e deve ter ID > 0
+      notes: ['', [Validators.maxLength(140)]], // Notas adicionais do veículo
+      removeExistingImage: [false]
+    });
+
+    this.vehicleTypeService.getVehicleTypes().subscribe(types => {
+      this.vehicleTypes = types;
+    })
+    this.vehicleTypeService.getManufacturers().subscribe(manufacturers => {
+      this.manufacturers = manufacturers;
+    });
+    this.vehicleTypeService.getCategories().subscribe(categories => {
+      this.categories = categories;
     });
 
     this.loadGarages();
@@ -56,6 +76,8 @@ export class VehicleFormComponent implements OnInit {
         this.loadVehicle(this.vehicleId); // Carrega o veículo para edição
       }
     });
+
+
   }
 
   loadGarages(): void {
@@ -76,15 +98,15 @@ export class VehicleFormComponent implements OnInit {
 
   loadVehicle(id: number): void {
     this.vehicleService.getVehicleById(id).subscribe({
-      next: (data) => {
-        this.vehicleForm.patchValue(data);  // Preenche o formulário com os dados do veículo
+      next: (vehicle: Vehicle) => {
+        this.vehicleForm.patchValue(vehicle);  // Preenche o formulário com os dados do veículo
+        this.originalImageUrl = vehicle.imageUrl || null;
 
-        if (data.imageUrl) {
-          this.currentCarImagePreview = data.imageUrl; // Define a pré-visualização da imagem do carro se existir
-        } else {
-          this.currentCarImagePreview = null; // Reseta a pré-visualização se não houver imagem
+        if (this.originalImageUrl) {
+          this.currentCarImagePreview = this.getBaseUrl() + this.originalImageUrl; // Define a pré-visualização da imagem do carro se existir
         }
-        this.selectedFile = null; // Reseta o arquivo selecionado
+
+        this.vehicleForm.get('removeExistingImage')?.setValue(false, { emitEvent: false }); // Reseta o arquivo selecionado
       },
       error: (err) => {
         console.error('Erro ao carregar veículo para edição:', err);
@@ -121,19 +143,24 @@ export class VehicleFormComponent implements OnInit {
 
       // Armazena o arquivo e cria uma pré-visualização
       this.selectedFile = file;
+      this.vehicleForm.get('removeExistingImage')?.setValue(false, { emitEvent: false });
+
       const reader = new FileReader();
       reader.onload = () => {
         this.currentCarImagePreview = reader.result as string; // Define a pré-visualização da imagem
+        const uploadButton = document.querySelector('.add-photo-button') as HTMLElement;
+        if (uploadButton) {
+          uploadButton.style.background = `url(${this.currentCarImagePreview})`;
+        }
       };
       reader.readAsDataURL(file); // Lê o arquivo como URL de dados
     } else {
       // Se nenhum arquivo for selecionado, reseta as variáveis
       this.selectedFile = null;
       // Se não estiver em modo de edição, reseta a pré-visualização da imagem
-      if (!this.isEditMode) {
+      if (!this.isEditMode || (this.isEditMode && !this.vehicleForm.get('imageUrl')?.value)) {
         this.currentCarImagePreview = null;
-      }
-      this.imageFileError = null; // Reseta o erro de arquivo de imagem
+      } // Reseta o erro de arquivo de imagem
     }
   }
 
@@ -167,8 +194,8 @@ export class VehicleFormComponent implements OnInit {
     // Anexa o arquivo de imagem se estiver selecionado
     if (this.selectedFile) {
       formData.append('imageFile', this.selectedFile, this.selectedFile.name); // Adiciona o arquivo de imagem ao FormData
-    } else if (this.isEditMode && !this.currentCarImagePreview) {
-      formData.append('RemoveExistingImage', 'true');
+    } else if (this.isEditMode && !this.currentCarImagePreview && !this.selectedFile) {
+      formData.append('RemoveExistingImage',  this.vehicleForm.get('removeExistingImage')?.value.toString());
     }
     const serviceCall = this.isEditMode
       ? this.vehicleService.updateVehicleWithFile(this.vehicleId!, formData)
@@ -192,8 +219,36 @@ export class VehicleFormComponent implements OnInit {
     });
   }
 
+  removeImage(): void {
+    this.selectedFile = null;
+    this.currentCarImagePreview = null;
+    this.vehicleForm.get('removeExistingImage')?.setValue(true);
+
+    if(this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+
+    const uploadButton = document.querySelector('.add-photo-button') as HTMLElement;
+    if (uploadButton) {
+      uploadButton.style.background = '';
+    }
+  }
+
   isFieldInvalid(field: string): boolean | undefined {
     const control = this.vehicleForm.get(field);
     return control?.invalid && (control?.dirty || control?.touched)
+  }
+
+  getBaseUrl(): string {
+    return 'https://localhost:7160';
+  }
+
+  private markAllAsTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markAllAsTouched(control);
+      }
+    });
   }
 }

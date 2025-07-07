@@ -14,19 +14,14 @@
   --card-radius: 12px;
   --transition-fast: 0.2s ease-in-out;
 
-  --color-title-properties-light: #d63384;
-  --color-shadow-properties-light: #ffb3d9;
-  --color-title-properties-dark: #ff66cc;
-  --color-shadow-properties-dark: #ff33cc;
-  --color-title-vehicles-light: #1e88e5;
-  --color-shadow-vehicles-light: #bbdefb;
-  --color-title-vehicles-dark: #00ffff;
-  --color-shadow-vehicles-dark: #00ccff;
-
+  --color-title-properties: #d63384;
+  --color-shadow-properties: #ffb3d9;
+  --color-title-vehicles: #1e88e5;
+  --color-shadow-vehicles: #bbdefb;
+  
   --button-edit-text: white;
   --button-edit-hover-bg: #218838;
-  --icon-button-light: #949494;
-  --icon-button-dark: #d6d6d6;
+  --icon-button: #949494;
 
   --button-delete-text: white;
   --button-delete-hover-bg: #c82333;
@@ -53,6 +48,12 @@ body {
 body.dark-mode {
   background-color: var(--bg-dark);
   color: var(--text-light);
+
+  --color-title-properties: #ff66cc;
+  --color-shadow-properties: #ff33cc;
+  --color-title-vehicles: #00ffc8;
+  --color-shadow-vehicles: #00ffc8cc;
+  --icon-button: #d6d6d6;
 }
 
 body, select, option, input {
@@ -89,32 +90,31 @@ body.dark-mode .navbar .nav-link.active-link {
 
 .page-properties {
   font-family: var(--font-cursive);
-  color: var(--color-title-properties-light); /* rosa vibrante */
+  color: var(--color-title-properties); /* rosa vibrante */
   text-shadow:
-    0 0 2px var(--color-title-properties-light),
-    0 0 4px var(--color-shadow-properties-light);
+    0 0 2px var(--color-title-properties),
+    0 0 4px var(--color-shadow-properties);
 }
 
 body.dark-mode .page-properties {
-  color: var(--color-title-properties-dark);
+  color: var(--color-title-properties);
   text-shadow:
-    0 0 4px var(--color-title-properties-dark),
-    0 0 8px var(--color-shadow-properties-dark);
+    0 0 4px var(--color-title-properties),
+    0 0 8px var(--color-shadow-properties);
 }
 
 .page-vehicles {
   font-family: var(--font-highlight);
-  color: var(--color-title-vehicles-light); /* azul vibrante */
+  color: var(--color-title-vehicles); /* azul vibrante */
   text-shadow:
-    0 0 2px var(--color-title-vehicles-light),
-    0 0 4px var(--color-shadow-vehicles-light);
+    0 0 2px var(--color-title-vehicles),
+    0 0 4px var(--color-shadow-vehicles);
 }
 
 body.dark-mode .page-vehicles {
-  color: var(--color-title-vehicles-dark);
   text-shadow:
-    0 0 3px var(--color-title-vehicles-dark),
-    0 0 7px var(--color-shadow-vehicles-dark);
+    0 0 3px var(--color-title-vehicles),
+    0 0 7px var(--color-shadow-vehicles);
 }
 
 .subtitle {
@@ -318,6 +318,10 @@ body.dark-mode .app-card:hover {
   margin: 8px;
 }
 
+.card-details span {
+  margin: 8px;
+}
+
 .card-content .card-title {
   text-align: center;
   margin: 12px 0 6px 0;
@@ -377,11 +381,13 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: .5rem;
+  /* border-top: 1px solid #464b52; */
 }
 
 .button-group .button-edit, 
 .button-group .button-delete {
-  color: var(--icon-button-light);
+  color: var(--icon-button);
   background-color: transparent;
   font-size: 1rem;
   transition: color var(--transition-fast);
@@ -399,7 +405,7 @@ button:hover {
 
 body.dark-mode.button-group .button-edit, 
 body.dark-mode.button-group .button-delete {
-  color: var(--icon-button-dark);
+  color: var(--icon-button);
 }
 
 body.dark-mode .config-button i.fa-gear {
@@ -512,6 +518,10 @@ body.dark-mode .pagination-container button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.pageSize-menu option {
+  font-family: var(--font-title);
 }
 
 footer {

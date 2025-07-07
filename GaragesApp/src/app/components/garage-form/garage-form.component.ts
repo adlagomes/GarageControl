@@ -5,7 +5,7 @@ import { ActivatedRoute ,Router } from '@angular/router'; // Para obter parâmet
 import { GarageService } from '../../services/garageService/garage.service';
 import { NotificationService } from '../../services/notification.service';
 import { Garage } from '../../models/garage.model'; // Modelo de dados da garagem
-import { PropertyTypeService } from '../../services/property-type.service';
+import { PropertyTypeService } from '../../services/garageService/property-type.service';
 
 
 @Component({
@@ -116,7 +116,7 @@ export class GarageFormComponent implements OnInit {
       }
 
       // Validação de tamanho de arquivo (exemplo: máximo 5MB)
-      if (file.size > 5 * 1024 * 1024) { // 5MB
+      if (file.size > 2 * 1024 * 1024) { // 5MB
         this.imageFileError = 'O arquivo selecionado é muito grande. O tamanho máximo permitido é 5MB.';
         this.selectedFile = null; // Reseta o arquivo selecionado
         this.currentImagePreview = null; // Reseta a pré-visualização da imagem
