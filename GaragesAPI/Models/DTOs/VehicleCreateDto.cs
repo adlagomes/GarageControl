@@ -20,8 +20,8 @@ namespace GaragesAPI.Models.DTOs
         public string? ImageUrl { get; set; }
         public IFormFile? ImageFile { get; set; }
 
-        [StringLength(140, ErrorMessage = "As notas não podem exceder 140 caracteres.")]
-        public string? Notes { get; set; }
+        [StringLength(100)]
+        public string? DlcOrTitleUpdate { get; set; }
 
         public int? GarageId { get; set; }
     }

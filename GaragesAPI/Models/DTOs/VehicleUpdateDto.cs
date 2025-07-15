@@ -10,8 +10,8 @@ namespace GaragesAPI.Models.DTOs
         [Required(ErrorMessage = "O tipo do veículo é obrigatório.")]
         [StringLength(50, ErrorMessage = "O tipo não pode exceder 50 caracteres.")]
         public string Type { get; set; } = string.Empty;
-        public string? Manufacturer { get; set; }
-        public string? Category { get; set; }
+        [Required] public string Manufacturer { get; set; } = string.Empty;
+        [Required] public string Category { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "O nome do veículo é obrigatório.")]
         [StringLength(100, ErrorMessage = "O nome não pode exceder 100 caracteres.")]
@@ -22,9 +22,8 @@ namespace GaragesAPI.Models.DTOs
         [Url(ErrorMessage = "A URL da imagem não é válida.")]
         public string? ImageUrl { get; set; }
 
-        [StringLength(140, ErrorMessage = "As notas não podem exceder 140 caracteres.")]
-        public string? Notes { get; set; }
-
+        [StringLength(100)]
+        public string? DlcOrTitleUpdate { get; set; }
         public int? GarageId { get; set; }
         public IFormFile? ImageFile { get; set; }
     }

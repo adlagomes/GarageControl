@@ -51,8 +51,8 @@ export class VehicleFormComponent implements OnInit {
       category: ['', [Validators.required]],
       topSpeed: [null],
       seatingCapacity: [null, [Validators.required]],
-      garageId: [0, [Validators.required, Validators.min(1)]], // Garagem é obrigatória e deve ter ID > 0
-      notes: ['', [Validators.maxLength(140)]], // Notas adicionais do veículo
+      garageId: [null],
+      dlcOrTitleUpdate: ['', [Validators.maxLength(100)]], // Notas adicionais do veículo
       removeExistingImage: [false]
     });
 
@@ -66,7 +66,7 @@ export class VehicleFormComponent implements OnInit {
       this.categories = categories;
     });
 
-    this.loadGarages();
+    // this.loadGarages();
 
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -80,21 +80,21 @@ export class VehicleFormComponent implements OnInit {
 
   }
 
-  loadGarages(): void {
-    this.garageService.getAllGarages().subscribe({
-      next: (data: Garage[]) => {
-        this.garages = data;
-        // Se estiver adicionando e não houver garagens, defina um valor padrão
-        if (!this.isEditMode && this.garages.length === 0) {
-          this.notificationService.warning('Nenhuma garagem disponível. Por favor, adicione uma garagem primeiro.');
-        }
-      },
-      error: (err) => {
-        console.error('Erro ao carregar garagens:', err);
-        this.notificationService.error('Não foi possível carregar as garagens. Verifique o console para mais detalhes.');
-      }
-    });
-  }
+  // loadGarages(): void {
+  //   this.garageService.getAllGarages().subscribe({
+  //     next: (data: Garage[]) => {
+  //       this.garages = data;
+  //       // Se estiver adicionando e não houver garagens, defina um valor padrão
+  //       if (!this.isEditMode && this.garages.length === 0) {
+  //         this.notificationService.warning('Nenhuma garagem disponível. Por favor, adicione uma garagem primeiro.');
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Erro ao carregar garagens:', err);
+  //       this.notificationService.error('Não foi possível carregar as garagens. Verifique o console para mais detalhes.');
+  //     }
+  //   });
+  // }
 
   loadVehicle(id: number): void {
     this.vehicleService.getVehicleById(id).subscribe({
@@ -179,7 +179,7 @@ export class VehicleFormComponent implements OnInit {
 
     // Cria um FormData para enviar os dados do veículo e o arquivo de imagem
     const formData = new FormData();
-
+    const garageId = this.vehicleForm.get('garageId')?.value;
     // Anexa os campos do formulário ao FormData
     formData.append('id', this.vehicleForm.get('id')?.value);
     formData.append('type', this.vehicleForm.get('type')?.value);
@@ -189,7 +189,10 @@ export class VehicleFormComponent implements OnInit {
     formData.append('topSpeed', this.vehicleForm.get('topSpeed')?.value);
     formData.append('seatingCapacity', this.vehicleForm.get('seatingCapacity')?.value);
     formData.append('notes', this.vehicleForm.get('notes')?.value);
-    formData.append('garageId', this.vehicleForm.get('garageId')?.value);
+    
+    if (garageId) {
+      formData.append('garageId', garageId);
+    }
 
     // Anexa o arquivo de imagem se estiver selecionado
     if (this.selectedFile) {

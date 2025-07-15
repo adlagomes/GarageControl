@@ -81,11 +81,8 @@
           <p>{{ vehicle.type }}</p>
           <p>{{ vehicle.manufacturer }}</p>
           <p>{{ vehicle.category }}</p>
-          <p *ngIf="vehicle.garage">Garagem: {{ vehicle.garage.name }}</p>
-          <div class="card-notes">
-            <span>Notas:</span>
-            <p *ngIf="vehicle.notes">{{ vehicle.notes }}</p>
-          </div>
+          <p *ngIf="vehicle.garage"><strong>Garagem:</strong> {{ vehicle.garage.name || 'Sem propriedade'}}</p>
+          <p><strong>DLC/itles:</strong> {{ vehicle.dlcOrTitleUpdate || '--' }}</p>
         </div>
 
         <div class="card-icons">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
 import { ToastComponent } from "./components/shared/toast/toast.component";
 import { CommonModule } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,9 @@ export class App {
   isDarkMode = false;
   themeColor: 'cyanGreen' | 'pink' | 'blue' | 'purple' = 'cyanGreen';
   showColorMenu = false;
+  isLoggedIn = false;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     // Aplica o tema escuro se o usuário ativou anteriormente
@@ -21,6 +25,15 @@ export class App {
     // const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
     if (this.isDarkMode) {
       document.body.classList.add('dark-mode');
+    }
+
+    this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.authService.setLoggedIn(true);
     }
   }
 

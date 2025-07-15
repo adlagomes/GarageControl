@@ -13,8 +13,8 @@ namespace GaragesAPI.Models
         [Required] public int SeatingCapacity { get; set; }
         public double? TopSpeed { get; set; }
         public string? ImageUrl { get; set; }
-        public string? Notes {  get; set; }
+        public string? DlcOrTitleUpdate {  get; set; }
         public int? GarageId { get; set; }
-        public Garage? Garage {  get; set; }
+        public Garage? Garage { get; set; }
     }
 }

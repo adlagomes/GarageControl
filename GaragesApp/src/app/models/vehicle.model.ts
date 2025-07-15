@@ -9,7 +9,7 @@ export interface Vehicle {
   topSpeed: number;
   seatingCapacity: number;
   imageUrl?: string; // A API ainda retornará/esperará uma URL string
-  notes: string | null;
-  garageId: number;
-  garage: GarageForVehicle; // Inclui o DTO simplificado de Garagem
+  dlcOrTitleUpdate?: string | null;
+  garageId?: number;
+  garage?: GarageForVehicle; // Inclui o DTO simplificado de Garagem
 }

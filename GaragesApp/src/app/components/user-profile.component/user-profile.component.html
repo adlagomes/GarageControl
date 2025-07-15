@@ -1,0 +1,13 @@
+<div class="user-profile-card">
+  <div class="avatar">
+    <img *ngIf="user.avatarUrl; else noImage" [src]="user.avatarUrl" alt="Avatar">
+    <ng-template #noImage>
+      <i class="fa-solid fa-user-circle fa-5x"></i>
+    </ng-template>
+  </div>
+
+  <div class="user-info">
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
+  </div>
+</div>

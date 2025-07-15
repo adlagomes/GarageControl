@@ -3,9 +3,15 @@ import { GarageListComponent } from './components/garage-list/garage-list.compon
 import { GarageFormComponent } from './components/garage-form/garage-form.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { LoginComponent } from './components/auth/login.component/login.component';
+import { RegisterComponent } from './components/auth/register.component/register.component';
+import { UserProfileComponent } from './components/user-profile.component/user-profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/garages', pathMatch: 'full' }, // Redireciona para a lista de garagens
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a lista de garagens
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: 'profile', component: UserProfileComponent},
   { path: 'garages', component: GarageListComponent }, // Módulo de garagens
   { path: 'garages/add', component: GarageFormComponent }, // Formulário para adicionar uma nova garagem
   { path: 'garages/edit/:id', component: GarageFormComponent }, // Formulário para editar uma garagem existente

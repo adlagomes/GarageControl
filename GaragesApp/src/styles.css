@@ -318,10 +318,6 @@ body.dark-mode .app-card:hover {
   margin: 8px;
 }
 
-.card-details span {
-  margin: 8px;
-}
-
 .card-content .card-title {
   text-align: center;
   margin: 12px 0 6px 0;

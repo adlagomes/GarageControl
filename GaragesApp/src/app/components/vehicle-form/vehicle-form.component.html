@@ -3,17 +3,17 @@
   <input class="form-input" type="hidden" formControlName="id">
 
   <div class="form-group">
-    <label class="form-label" for="garage">Propriedade:</label>
+    <!-- <label class="form-label" for="garage">Propriedade:</label>
     <select class="form-select" id="garage" formControlName="garageId">
       <option [ngValue]="0" disabled>Selecione uma Propriedade</option>
       <option *ngFor="let garage of garages" [ngValue]="garage.id">
         {{ garage.name }} (Capacidade: {{ garage.capacity }})
       </option>
-    </select>
-    <div class="error-message" *ngIf="isFieldInvalid('garageId')">
+    </select> -->
+    <!-- <div class="error-message" *ngIf="isFieldInvalid('garageId')">
       <span *ngIf="vehicleForm.get('garageId')?.errors?.['required'] || vehicleForm.get('garageId')?.errors?.['min']">Selecione uma propriedade válida.</span>
     </div>
-    <p *ngIf="garages.length === 0" style="color: red;">Nenhuma propriedade disponível. Por favor, adicione uma propriedade com garagem primeiro.</p>
+    <p *ngIf="garages.length === 0" style="color: red;">Nenhuma propriedade disponível. Por favor, adicione uma propriedade com garagem primeiro.</p> -->
   </div>
 
   <div class="form-group">
@@ -69,11 +69,11 @@
   </div>
 
   <div class="form-group">
-    <label class="form-label" for="notes">Notas (Opcional):</label>
-    <textarea class="form-input" id="notes" formControlName="notes"></textarea>
-    <div class="error-message" *ngIf="isFieldInvalid('notes')">
-      <span *ngIf="vehicleForm.get('notes')?.errors?.['maxlength']">Notas não podem exceder 140 caracteres.</span>
-    </div>
+    <label class="form-label" for="dlcOrTitleUpdate">DLC/Title Update:</label>
+    <input  class="form-input" type="text" id="dlcOrTitleUpdate" formControlName="dlcOrTitleUpdate">
+    <!-- <div class="error-message" *ngIf="isFieldInvalid('dlcOrTitleUpdate')">
+      <span *ngIf="vehicleForm.get('dlcOrTitleUpdate')?.errors?.['maxlength']">DLC/Titles não podem exceder 100 caracteres.</span>
+    </div> -->
   </div>
 
   <div class="form-group form-image-upload-wrapper">
@@ -100,7 +100,8 @@
   </div>
 
   <div class="form-actions">
-    <button class="form-button primary" type="submit" [disabled]="garages.length === 0 && !isEditMode">
+    <button class="form-button primary" type="submit" >
+      <!-- [disabled]="garages.length === 0 && !isEditMode" -->
       {{ isEditMode ? 'Salvar Alterações' : 'Adicionar Veículo' }}
     </button>
     <button class="form-button cancel-button" type="button" (click)="router.navigate(['/vehicles'])">Cancelar</button>

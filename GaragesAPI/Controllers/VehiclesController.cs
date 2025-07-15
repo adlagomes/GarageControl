@@ -28,7 +28,7 @@ namespace GaragesAPI.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // GET; api/Vehicles
+        // GET: api/Vehicles
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VehicleDto>>> GetVehicles([FromQuery] VehicleParametersDto parameters)
         {
@@ -46,7 +46,7 @@ namespace GaragesAPI.Controllers
                     (!string.IsNullOrEmpty(v.Type) && v.Type.ToLower().Contains(search)) ||
                     (!string.IsNullOrEmpty(v.Manufacturer) && v.Manufacturer.ToLower().Contains(search)) ||
                     (!string.IsNullOrEmpty(v.Category) && v.Category.ToLower().Contains(search)) ||
-                    (!string.IsNullOrEmpty(v.Notes) && v.Notes.ToLower().Contains(search))
+                    (!string.IsNullOrEmpty(v.DlcOrTitleUpdate) && v.DlcOrTitleUpdate.ToLower().Contains(search))
                 );
             }
 
@@ -158,8 +158,9 @@ namespace GaragesAPI.Controllers
         {
             if (vehicleCreateDto.GarageId.HasValue)
             {
-                if (!await _context.Garages.AnyAsync(g => g.Id == vehicleCreateDto.GarageId))
-                    return BadRequest($"Garagem com ID {vehicleCreateDto.GarageId} não encontrada.");
+                var garageExists = await _context.Garages.AnyAsync(g => g.Id == vehicleCreateDto.GarageId.Value);
+                if (!garageExists)
+                    return BadRequest("Garagem nao ecnontrada");
             }
 
             var vehicle = _mapper.Map<Vehicle>(vehicleCreateDto);

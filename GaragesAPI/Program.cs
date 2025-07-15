@@ -1,7 +1,11 @@
-using System.Text.Json.Serialization;
 using GaragesAPI.Data;
-using Microsoft.EntityFrameworkCore;
 using GaragesAPI.Profiles;
+using GaragesAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +17,35 @@ builder.Services.AddCors(options =>
 options.AddPolicy(name: MyAllowSpecificOrigins,
                   policy =>
                   {
-                      policy.WithOrigins("http://localhost:4200")
+                      policy.WithOrigins("http://localhost:4200", "http://localhost:51841", "http://localhost:60944")
                             .AllowAnyHeader()
                             .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                             .WithExposedHeaders("X-Pagination");
                   });
        
 });
+
+builder.Services.AddScoped<TokenService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
 
 // Configuração de AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -51,11 +77,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles(); // Habilita o serviço de arquivos estáticos (para wwwroot)
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

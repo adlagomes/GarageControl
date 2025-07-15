@@ -10,7 +10,7 @@
         public double? TopSpeed { get; set; }
         public int? SeatingCapacity { get; set; }
         public string? ImageUrl { get; set; }
-        public string? Notes { get; set; }
+        public string? DlcOrTitleUpdate { get; set; }
         public int GarageId { get; set; }
 
         // Inclui apenas um resumo da garagem para evitar ciclos
