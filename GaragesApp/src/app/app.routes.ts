@@ -6,9 +6,10 @@ import { VehicleListComponent } from './components/vehicle-list/vehicle-list.com
 import { LoginComponent } from './components/auth/login.component/login.component';
 import { RegisterComponent } from './components/auth/register.component/register.component';
 import { UserProfileComponent } from './components/user-profile.component/user-profile.component';
+import { AdminPageComponent } from './components/pages/admin-page.component/admin-page.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a lista de garagens
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a página de login por padrão
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'profile', component: UserProfileComponent},
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'vehicles/add', component: VehicleFormComponent }, // Formulário para adicionar um novo veículo
   { path: 'vehicles/edit/:id', component: VehicleFormComponent }, // Formulário para editar um veículo existente
   { path: 'garages/:garageId/vehicles', component: VehicleListComponent },
+  { path: 'admin', component: AdminPageComponent }, // Página de administração
   { path: '**', redirectTo: '/garages' } // Redireciona para a lista de garagens em caso de rota desconhecida
 ];
 

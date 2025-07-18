@@ -24,6 +24,7 @@ export class UserProfileComponent implements OnInit {
         this.user.username = response.username;
         this.user.email = response.email;
         this.user.avatarUrl = '';
+        // this.authService.setCurrentUser(response);
       },
       error: (err) => {
         console.log('Erro ao carregar perfil:', err);

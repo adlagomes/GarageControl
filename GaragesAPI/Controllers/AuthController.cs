@@ -37,8 +37,9 @@ namespace GaragesAPI.Controllers
             var user = new User
             {
                 Username = userRegisterDto.Username,
-                PasswordHash = passwordHash,
                 Email = userRegisterDto.Email,
+                PasswordHash = passwordHash,
+                Role = userRegisterDto.Role,
             };
 
             _context.Users.Add(user);
@@ -85,7 +86,8 @@ namespace GaragesAPI.Controllers
             {
                 id = user.Id,
                 username = user.Username,
-                email = user.Email
+                email = user.Email,
+                role = user.Role
             });
         }
 

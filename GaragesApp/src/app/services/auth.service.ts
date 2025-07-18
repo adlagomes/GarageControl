@@ -20,6 +20,8 @@ export class AuthService {
   private baseUrl = `https://localhost:7160/api/auth`;
   private loggedIn = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.loggedIn.asObservable();
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -38,11 +40,17 @@ export class AuthService {
     );
   }
 
-  getCurrentUser(): { username: string; email: string } {
-    return {
-      username: localStorage.getItem('username') || '',
-      email: localStorage.getItem('email') || ''
-    };
+  setCurrentUser(user: any): void {
+    this.currentUserSubject.next(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  getCurrentUser(): any {
+    return this.currentUserSubject.value;
+  }
+
+  isAdmin(): boolean {
+    return this.getCurrentUser()?.role === 'admin';
   }
 
   setLoggedIn(value: boolean) {

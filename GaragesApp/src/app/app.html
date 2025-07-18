@@ -1,6 +1,10 @@
   <header class="main-header">
     <!-- *ngIf="isLoggedIn" -->
-    <nav class="navbar" >
+    <nav class="navbar" *ngIf="isLoggedIn">
+      <img class="avatar" [src]="avatarUrl" alt="Avatar" width="32" height="32" style="border-radius: 50%" />
+      <span class="username">{{ username }}</span>
+
+
       <ul>
         <li>
           <a class="nav-link active-link" routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
@@ -8,7 +12,7 @@
             Propriedades |
           </a>
         </li>
-        <li>
+        <li *ngIf="isAdmin">
           <a class="nav-link active-link" routerLink="/garages/add" routerLinkActive="active-link">
             <i class="fas fa-plus-circle"></i>
             Adicionar Propriedade |
@@ -20,13 +24,16 @@
             Veículos |
           </a>
         </li>
-        <li>
+        <li *ngIf="isAdmin">
           <a class="nav-link active-link" routerLink="/vehicles/add" routerLinkActive="active-link">
             <i class="fas fa-plus"></i>
             Adicionar veículo |
           </a>
         </li>
       </ul>
+      <div class="logout">
+        <button class="button-logout" (click)="logout()">Sair</button>
+      </div>
       <div class="nav-right-actions theme-toggle">
         <button class="toggle-button" [class.active]="isDarkMode" [ngClass]="themeColor" (click)="toggleDarkMode()">
           <span *ngIf="!isDarkMode" title="Ativar Tema Escuro"><i class="fa-solid fa-toggle-off"></i></span>

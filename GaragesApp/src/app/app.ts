@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterModule, Router } from '@angular/router';
 import { ToastComponent } from "./components/shared/toast/toast.component";
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,19 +11,33 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
-export class App {
+export class App implements OnInit {
   protected title = 'GaragesApp';
   isDarkMode = false;
   themeColor: 'cyanGreen' | 'pink' | 'blue' | 'purple' = 'cyanGreen';
   showColorMenu = false;
   isLoggedIn = false;
+  isAdmin = false;
+  username: string = '';
+  avatarUrl: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Aplica o tema escuro se o usuário ativou anteriormente
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
-    // const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
+    
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.username = user.username;
+        this.avatarUrl = user.avatarUrl || 'fa-solid fa-user-circle fa-5x';
+        this.isAdmin = user.role === 'admin';
+      } else {
+        this.username = '';
+        this.avatarUrl = 'fa-solid fa-user-circle fa-5x';
+        this.isAdmin = false;
+      }
+    });
+
     if (this.isDarkMode) {
       document.body.classList.add('dark-mode');
     }
@@ -35,6 +50,12 @@ export class App {
     if (token) {
       this.authService.setLoggedIn(true);
     }
+
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   toggleDarkMode(): void {

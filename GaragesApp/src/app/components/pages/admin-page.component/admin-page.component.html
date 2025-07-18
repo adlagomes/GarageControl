@@ -1,0 +1,11 @@
+<p><strong>DEBUG:</strong> User: {{ authService.getCurrentUser() | json }}</p>
+
+<div *ngIf="isAdmin; else acessoNegado">
+  <h1>Área Administrativa</h1>
+  <p>Bem-vindo(a), {{ username }}! Aqui você pode gerenciar o sistema.</p>
+</div>
+
+<ng-template #acessoNegado>
+  <h2>Acesso negado</h2>
+  <p>Você não tem permissão para visualizar esta página.</p>
+</ng-template>

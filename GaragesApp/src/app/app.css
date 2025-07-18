@@ -233,3 +233,13 @@ nav a.active-link {
 .color-circle.colorPink  { background-color: #ff4dff; }
 .color-circle.colorBlue  { background-color: #1e90ff; }
 .color-circle.colorPurple  { background-color: #cc66ff; }
+
+.avatar {
+  background-color: #00d4a6;
+}
+
+.username {
+  color: azure;
+  font-size: 1rem;
+  font-weight: bold;
+}
