@@ -30,9 +30,9 @@ export class App implements OnInit {
     
     this.authService.currentUser$.subscribe(user => {
       if (user) {
-        this.username = user.username;
-        this.avatarUrl = user.avatarUrl || 'fa-solid fa-user-circle fa-5x';
-        this.isAdmin = user.role === 'admin';
+        this.username = user['username'];
+        this.avatarUrl = user['avatarUrl'] || 'fa-solid fa-user-circle fa-5x';
+        this.isAdmin = user['role'] === 'admin';
       } else {
         this.username = '';
         this.avatarUrl = 'fa-solid fa-user-circle fa-5x';
@@ -68,7 +68,7 @@ export class App implements OnInit {
 
   goToDashboard(): void {
     const user = this.authService.getCurrentUser();
-    const destination = user?.role === 'admin' ? '/admin' : '/profile';
+    const destination = user?.['role'] === 'admin' ? '/admin' : '/profile';
     this.router.navigate([destination]);
   }
 

@@ -20,17 +20,30 @@ export class AuthService {
     this.loadUserFromToken();
   }
 
+  private mapDecodedToken(token: any) {
+  return {
+    id: token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+    username: token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+    email: token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"],
+    role: token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+    exp: token.exp
+  };
+}
+
+
   loadUserFromToken(): void {
     const token = localStorage.getItem('token');
     if (!token) {
       this.currentUserSubject.next(null);
       return;
     }
-    const decodedToken = this.decodeToken(token);
+
+    const rawDecoded = this.decodeToken(token);
+    const decodedToken = this.mapDecodedToken(rawDecoded);
+
     if (!decodedToken || this.isTokenExpired(decodedToken.exp)) {
       this.logout();
     } else {
-      console.log('Usuário carregado do token:', decodedToken);
       this.currentUserSubject.next(decodedToken);
     }
   }
@@ -46,7 +59,9 @@ export class AuthService {
         if (!token) return;
 
         localStorage.setItem('token', token);
-        const decodedToken = this.decodeToken(token);
+
+        const rawDecoded = this.decodeToken(token);
+        const decodedToken = this.mapDecodedToken(rawDecoded);
 
         if (decodedToken) {
           this.currentUserSubject.next(decodedToken);
@@ -55,7 +70,6 @@ export class AuthService {
           // Armazena infos adicionais
           localStorage.setItem('role', decodedToken.role);
           localStorage.setItem('username', decodedToken.username);
-          localStorage.setItem('avatarUrl', decodedToken.avatarUrl || '');
           localStorage.setItem('email', decodedToken.email || '');
         }
       }),
@@ -77,7 +91,7 @@ export class AuthService {
 
   isAdmin(): Observable<boolean> {
     return this.currentUser$.pipe(
-      map(user => user?.role === 'admin')
+      map(user => user?.['role'] === 'admin')
     );
   }
 
@@ -105,7 +119,6 @@ export class AuthService {
     try {
       return jwtDecode<DecodedToken>(token);
     } catch (error) {
-      console.error('Erro ao decodificar o token JWT:', error);
       return null;
     }
   }

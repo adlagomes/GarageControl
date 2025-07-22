@@ -34,8 +34,8 @@ export class AdminPageComponent implements OnInit {
   const user = this.authService.getCurrentUser();
   
   if (user) {
-    this.username = user.username;
-    this.isAdmin = user.role === 'admin';
+    this.username = user['username'];
+    this.isAdmin = user['role'] === 'admin';
   } else {
     // Se o perfil ainda não foi carregado, buscar manualmente:
       this.http.get<any>(`${environment.apiUrl}/auth/profile`).subscribe({

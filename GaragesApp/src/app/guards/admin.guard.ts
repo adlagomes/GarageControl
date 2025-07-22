@@ -47,13 +47,13 @@ import { Injectable, inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn ,Router, RouterStateSnapshot } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 
-export const AuthGuard: CanActivateFn = (route, state) => {
+export const AdminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   const user = authService.getCurrentUser();
 
-  if (user && user.role === 'admin') {
+  if (user && user['role'] === 'admin') {
     return true;
   }
 
