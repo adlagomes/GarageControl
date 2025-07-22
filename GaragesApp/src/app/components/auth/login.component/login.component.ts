@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -29,11 +32,23 @@ export class LoginComponent {
   onSubmit(): void {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        this.successMessage = 'Login bem-sucedido!';
-        this.errorMessage = '';
         localStorage.setItem('authToken', response.token);
-        this.authService.setLoggedIn(true);
-        this.router.navigate(['/profile']);
+
+        this.http.get<any>(`${environment.apiUrl}/profile`).subscribe({
+          next: (user) => {
+            this.authService.setCurrentUser(user);
+
+            if (user.role === 'admin') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/profile']);
+            }
+          },
+          error: () => {
+            this.errorMessage  = 'Não foi possível obter os dados do usuário.';
+            this.successMessage = '';
+          }
+        });
       },
       error: (err) => {
         this.errorMessage = err.error?.message || err.error || 'Falha no login.';
@@ -41,6 +56,5 @@ export class LoginComponent {
       }
     });
   }
-
-
 }
+    

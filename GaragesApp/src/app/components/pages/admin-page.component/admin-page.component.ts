@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../../services/auth.service';
+import { GarageService } from '../../../services/garageService/garage.service';
+import { VehicleService } from '../../../services/vehicleService/vehicle.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-page.component',
@@ -12,18 +15,30 @@ import { HttpClient } from '@angular/common/http';
 export class AdminPageComponent implements OnInit {
   isAdmin: boolean = false;
   username: string = '';
+  totalProperties: number = 0;
+  totalVehicles: number = 0;
+  propertiesWithImages: number = 0;
+  vehiclesWithImages: number = 0;
+  protected readonly environment = environment;
 
-  constructor(public authService: AuthService, private http: HttpClient) {}
+
+  constructor(
+    public authService: AuthService,
+    private http: HttpClient,
+    private garageService: GarageService,
+    private vehicleService: VehicleService
+  ) {}
 
   ngOnInit(): void {
+    this.loadData();
   const user = this.authService.getCurrentUser();
-
+  
   if (user) {
     this.username = user.username;
     this.isAdmin = user.role === 'admin';
   } else {
     // Se o perfil ainda não foi carregado, buscar manualmente:
-      this.http.get<any>('https://localhost:7160/api/auth/profile').subscribe({
+      this.http.get<any>(`${environment.apiUrl}/auth/profile`).subscribe({
         next: (response) => {
           this.authService.setCurrentUser(response);
           this.username = response.username;
@@ -35,5 +50,18 @@ export class AdminPageComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadData(): void {
+
+    this.garageService.getGarages().subscribe(response => {
+      this.totalProperties = response.pagination.totalCount;
+      this.propertiesWithImages = response.garages.filter(garage => garage.imageUrl).length;
+    });
+
+    this.vehicleService.getVehicles().subscribe(response => {
+      this.totalVehicles = response.pagination.totalCount;
+      this.vehiclesWithImages = response.vehicles.filter(vehicle => vehicle.imageUrl).length;
+    });
   }
 }

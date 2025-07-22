@@ -1,11 +1,17 @@
   <header class="main-header">
-    <!-- *ngIf="isLoggedIn" -->
     <nav class="navbar" *ngIf="isLoggedIn">
-      <img class="avatar" [src]="avatarUrl" alt="Avatar" width="32" height="32" style="border-radius: 50%" />
-      <span class="username">{{ username }}</span>
+      <div class="user-info" (click)="goToDashboard()" style="cursor: pointer;">
+        <img class="avatar" [src]="avatarUrl" alt="Avatar" width="32" height="32" style="border-radius: 50%" />
+        <span class="username">{{ username }}</span>
+      </div>
 
 
       <ul>
+        <li *ngIf="isLoggedIn">
+          <a  class="nav-link" [ngClass]="{ 'active-link': activeRoute === '/profile' || activeRoute === '/admin' }" style="cursor: pointer;" (click)="goToDashboard()">
+            <i class="fas fa-home"></i> Início |
+          </a>
+        </li>
         <li>
           <a class="nav-link active-link" routerLink="/garages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-warehouse"></i>

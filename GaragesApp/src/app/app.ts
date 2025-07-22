@@ -20,10 +20,12 @@ export class App implements OnInit {
   isAdmin = false;
   username: string = '';
   avatarUrl: string = '';
+  activeRoute: string = '';
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.authService.loadUserFromToken();
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
     
     this.authService.currentUser$.subscribe(user => {
@@ -35,6 +37,12 @@ export class App implements OnInit {
         this.username = '';
         this.avatarUrl = 'fa-solid fa-user-circle fa-5x';
         this.isAdmin = false;
+      }
+    });
+
+    this.router.events.subscribe((event: any) =>{
+      if (event.url) {
+        this.activeRoute = event.url;
       }
     });
 
@@ -56,6 +64,12 @@ export class App implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  goToDashboard(): void {
+    const user = this.authService.getCurrentUser();
+    const destination = user?.role === 'admin' ? '/admin' : '/profile';
+    this.router.navigate([destination]);
   }
 
   toggleDarkMode(): void {

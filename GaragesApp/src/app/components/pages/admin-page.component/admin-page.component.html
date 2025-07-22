@@ -1,11 +1,34 @@
-<p><strong>DEBUG:</strong> User: {{ authService.getCurrentUser() | json }}</p>
-
 <div *ngIf="isAdmin; else acessoNegado">
   <h1>Área Administrativa</h1>
-  <p>Bem-vindo(a), {{ username }}! Aqui você pode gerenciar o sistema.</p>
+  <p>Bem-vindo(a), {{ username }}! Aqui você pode gerenciar o seu sistema.</p>
 </div>
 
 <ng-template #acessoNegado>
   <h2>Acesso negado</h2>
   <p>Você não tem permissão para visualizar esta página.</p>
 </ng-template>
+
+<h2>Painel Administrativo</h2>
+
+<div class="dashboard-container">
+  <div class="card">
+    <h3>Total de Propriedades</h3>
+    <p>{{ totalProperties }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Total de Veículos</h3>
+    <p>{{ totalVehicles }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Propriedades com Imagem</h3>
+    <p>{{ propertiesWithImages }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Veículos com Imagem</h3>
+    <p>{{ vehiclesWithImages }}</p>
+  </div>
+</div>
+

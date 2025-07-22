@@ -1,64 +1,120 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
+import { DecodedToken, LoginData, RegisterData } from '../components/auth/auth-model/auth.model';
+import { environment } from '../../environments/environment';
 
-interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
-
-interface LoginData {
-  email: string;
-  password: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = `https://localhost:7160/api/auth`;
+  private apiUrl = environment.apiUrl;
   private loggedIn = new BehaviorSubject<boolean>(false);
-  public isLoggedIn$ = this.loggedIn.asObservable();
-  private currentUserSubject = new BehaviorSubject<any>(null);
+  private currentUserSubject = new BehaviorSubject<DecodedToken | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  public isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadUserFromToken();
+  }
 
-  register(data: RegisterData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, data);
+  loadUserFromToken(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.currentUserSubject.next(null);
+      return;
+    }
+    const decodedToken = this.decodeToken(token);
+    if (!decodedToken || this.isTokenExpired(decodedToken.exp)) {
+      this.logout();
+    } else {
+      console.log('Usuário carregado do token:', decodedToken);
+      this.currentUserSubject.next(decodedToken);
+    }
+  }
+
+  register(data: RegisterData): Observable<any> { //tipar o Observable com um tipo mais específico que any.
+    return this.http.post(`${this.apiUrl}/register`, data);
   }
 
   login(data: LoginData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, data).pipe(
+    return this.http.post(`${this.apiUrl}/login`, data).pipe(
       tap((response: any) => {
-        localStorage.setItem('username', response.username);
-        localStorage.setItem('email', response.email);
-        localStorage.setItem('token', response.token);
-        this.setLoggedIn(true);
+        const token = response.token;
+        if (!token) return;
+
+        localStorage.setItem('token', token);
+        const decodedToken = this.decodeToken(token);
+
+        if (decodedToken) {
+          this.currentUserSubject.next(decodedToken);
+          this.setLoggedIn(true);
+
+          // Armazena infos adicionais
+          localStorage.setItem('role', decodedToken.role);
+          localStorage.setItem('username', decodedToken.username);
+          localStorage.setItem('avatarUrl', decodedToken.avatarUrl || '');
+          localStorage.setItem('email', decodedToken.email || '');
+        }
+      }),
+      catchError(error => {
+        this.currentUserSubject.next(null);
+        throw error;
       })
     );
   }
 
-  setCurrentUser(user: any): void {
+  setCurrentUser(user: DecodedToken): void {
     this.currentUserSubject.next(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
-  getCurrentUser(): any {
+  getCurrentUser(): DecodedToken | null {
     return this.currentUserSubject.value;
   }
 
-  isAdmin(): boolean {
-    return this.getCurrentUser()?.role === 'admin';
+  isAdmin(): Observable<boolean> {
+    return this.currentUser$.pipe(
+      map(user => user?.role === 'admin')
+    );
   }
 
+  isLoggedIn(): Observable<boolean> {
+    return this.currentUser$.pipe(
+      map(user => !!user)
+    );
+  }
+
+  // não é sempre necessário se já usa currentUser
   setLoggedIn(value: boolean) {
     this.loggedIn.next(value);
   }
 
   logout() {
-    this.loggedIn.next(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('avatarUrl');
+    localStorage.removeItem('email');
+    this.currentUserSubject.next(null);
+    this.loggedIn.next(false);
+  }
+
+  private decodeToken(token: string): DecodedToken | null {
+    try {
+      return jwtDecode<DecodedToken>(token);
+    } catch (error) {
+      console.error('Erro ao decodificar o token JWT:', error);
+      return null;
+    }
+  }
+
+  private isTokenExpired(exp: number): boolean {
+    if(!exp) {
+      return true; // Se não houver expiração, consideramos o token expirado
+    }
+    const currentTime = Date.now() / 1000;
+    return exp < currentTime;
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-profile.component',
@@ -19,7 +20,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7160/api/auth/profile').subscribe({
+    this.http.get<any>(`${environment.apiUrl}/profile`).subscribe({
       next: (response) => {
         this.user.username = response.username;
         this.user.email = response.email;
